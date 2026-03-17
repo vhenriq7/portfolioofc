@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Victor Henrique | Portfólio</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial;
+    background: #0a0a0a;
+    color: #f1f1f1;
+}
+
+/* NAVBAR */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 15px;
+    z-index: 1000;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #aaa;
+}
+
+/* HEADER */
+header {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* TÍTULO */
+h1 {
+    font-size: 45px;
+}
+
+/* DIGITAÇÃO */
+.typing {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #aaa;
+    border-right: 2px solid #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    animation: blink .7s infinite;
+}
+
+@keyframes blink {
+    50% { border-color: transparent }
+}
+
+/* BOTÃO */
+.btn {
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* SEÇÕES */
+section {
+    padding: 80px 20px;
+}
+
+/* CARDS */
+.card {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #111;
+    border-radius: 10px;
+    border: 1px solid #222;
+    opacity: 0;
+    transform: translateY(80px);
+    transition: 0.8s;
+}
+
+.card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* SKILLS HOVER */
+li {
+    background: #1a1a1a;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+li:hover {
+    transform: translateX(10px);
+    background: #222;
+}
+
+/* PROJETOS */
+.projeto {
+    margin: 20px 0;
+    padding: 20px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.projeto:hover {
+    transform: scale(1.03);
+}
+
+/* CONTATO */
+.contato p {
+    margin-bottom: 18px;
+}
+
+.contato .btn {
+    margin-top: 15px;
+    display: inline-block;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #000;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+<a href="#sobre">Sobre</a>
+<a href="#skills">Habilidades</a>
+<a href="#projetos">Projetos</a>
+<a href="#contato">Contato</a>
+</nav>
+
+<header>
+<h1>Victor Henrique</h1>
+<p class="typing"></p>
+<a href="#contato" class="btn">Fale comigo</a>
+</header>
+
+<section>
+
+<div class="card" id="sobre">
+<h2>Sobre mim</h2>
+<p>
+Sou estudante de Técnico em Informática para Internet, atualmente no último módulo do curso. Ao longo da formação, adquiri conhecimentos em lógica de programação, desenvolvimento web com HTML e CSS e fundamentos de redes de computadores.
+
+Tenho interesse tanto em front-end quanto back-end e busco minha primeira oportunidade de estágio para aplicar meus conhecimentos na prática.
+</p>
+</div>
+
+<div class="card" id="skills">
+<h2>Habilidades</h2>
+<ul>
+<li>HTML e CSS (nível básico)</li>
+<li>Lógica de Programação</li>
+<li>Redes de Computadores</li>
+<li>Aprendizado rápido</li>
+</ul>
+</div>
+
+<div class="card" id="projetos">
+<h2>Projetos</h2>
+
+<div class="projeto">
+<h3>Landing Page</h3>
+<p>Site moderno com HTML e CSS focado em apresentação.</p>
+</div>
+
+<div class="projeto">
+<h3>Portfólio Pessoal</h3>
+<p>Projeto com animações e design responsivo.</p>
+</div>
+
+</div>
+
+<div class="card contato" id="contato">
+<h2>Contato</h2>
+<p>Email: 67victorrocha@gmail.com</p>
+<p>WhatsApp: (32) 99903-8655</p>
+
+<a class="btn" href="https://wa.me/5532999038655" target="_blank">
+Falar no WhatsApp
+</a>
+</div>
+
+</section>
+
+<footer>
+<p>© 2026 Victor Henrique</p>
+</footer>
+
+<script>
+// SCROLL
+const cards = document.querySelectorAll('.card');
+
+window.addEventListener('scroll', () => {
+    cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+            card.classList.add('show');
+        }
+    });
+});
+
+// ANIMAÇÃO TOP
+const textos = [
+    "Desenvolvedor Front-end",
+    "Desenvolvedor Back-end",
+    "Desenvolvedor Web em formação",
+    "Futuro Full Stack"
+];
+
+const el = document.querySelector(".typing");
+
+let i = 0;
+let j = 0;
+let apagando = false;
+
+function animar() {
+    let atual = textos[i];
+
+    if (!apagando) {
+        el.textContent = atual.substring(0, j++);
+        if (j > atual.length) {
+            apagando = true;
+            setTimeout(animar, 1200);
+            return;
+        }
+    } else {
+        el.textContent = atual.substring(0, j--);
+        if (j === 0) {
+            apagando = false;
+            i = (i + 1) % textos.length;
+        }
+    }
+
+    setTimeout(animar, apagando ? 30 : 50);
+}
+
+animar();
+</script>
+
+</body>
+</html>
