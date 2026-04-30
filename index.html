@@ -1,277 +1,2212 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Victor Henrique | Portfólio</title>
-
+<title>Gestão Estratégica de Tecnologia da Informação · Servidor Linux Samba</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#0b0b0b;
+  --sf:rgba(255,255,255,.04);--sf2:rgba(255,255,255,.07);
+  --br:rgba(255,255,255,.08);--br2:rgba(255,255,255,.14);
+  --tx:#f0f0f0;--muted:#666;--dim:#444;
+  --g:#2DDE98;--gd:rgba(45,222,152,.1);--gg:rgba(45,222,152,.2);
+  --b:#4DA8FF;--bd:rgba(77,168,255,.1);
+  --a:#FFB547;--ad:rgba(255,181,71,.1);
+  --r:#FF5252;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--font);overflow-x:hidden;line-height:1.6}
+
+/* PROGRESS */
+#pgbar{position:fixed;top:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--g),var(--b));z-index:1000}
+/* DOTS */
+#dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:999}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--dim);cursor:pointer;transition:all .3s}
+.dot.on{background:var(--g);box-shadow:0 0 8px var(--gg);transform:scale(1.5)}
+
+/* SECTIONS */
+section{min-height:100vh;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px clamp(16px,3vw,48px);position:relative;overflow:hidden}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+.rl{opacity:0;transform:translateX(-36px);transition:opacity .8s ease,transform .8s ease}
+.rr{opacity:0;transform:translateX(36px);transition:opacity .8s ease,transform .8s ease}
+.rs{opacity:0;transform:scale(.93);transition:opacity .7s ease,transform .7s ease}
+.r.v,.rl.v,.rr.v,.rs.v{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
+
+/* TYPOGRAPHY */
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:10px}
+.eyebrow::before,.eyebrow::after{content:'';width:28px;height:1px;background:var(--g);opacity:.4}
+.h1{font-size:clamp(38px,6vw,82px);font-weight:700;line-height:1;letter-spacing:-.04em;margin-bottom:16px}
+.h2{font-size:clamp(26px,3.8vw,54px);font-weight:700;line-height:1.05;letter-spacing:-.03em}
+.accent{color:var(--g)}.blue{color:var(--b)}.amber{color:var(--a)}
+.lead{font-size:clamp(14px,1.5vw,17px);color:var(--muted);font-weight:300;line-height:1.7;max-width:560px}
+.slabel{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+
+/* TAGS */
+.tag{padding:7px 16px;border:1px solid var(--br2);border-radius:100px;font-size:12px;color:var(--muted);background:var(--sf)}
+.tg{border-color:rgba(45,222,152,.25);color:var(--g);background:var(--gd)}
+.tb{border-color:rgba(77,168,255,.25);color:var(--b);background:var(--bd)}
+.ta{border-color:rgba(255,181,71,.25);color:var(--a);background:var(--ad)}
+
+/* CARD */
+.card{background:var(--sf);border:1px solid var(--br);border-radius:18px;padding:28px;transition:border-color .3s,transform .3s}
+.card:hover{border-color:var(--br2);transform:translateY(-3px)}
+
+/* HERO */
+#hero{background:var(--bg);text-align:center;overflow:hidden}
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(70px)}
+.o1{width:700px;height:700px;background:radial-gradient(circle,rgba(45,222,152,.06) 0%,transparent 70%);top:-200px;left:-200px}
+.o2{width:500px;height:500px;background:radial-gradient(circle,rgba(77,168,255,.05) 0%,transparent 70%);bottom:-100px;right:-100px}
+.hero-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:28px 0 36px}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--dim);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.arrow-d{width:16px;height:16px;border-right:1px solid var(--dim);border-bottom:1px solid var(--dim);transform:rotate(45deg);animation:bnc 2s infinite}
+@keyframes bnc{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
+
+/* AUTHORS */
+.authors{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.author{display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--br);border-radius:100px;background:var(--sf)}
+.ava{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000}
+.aname{font-size:13px;color:var(--muted)}.arole{font-size:10px;color:var(--dim);margin-top:1px}
+
+/* SPLIT */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;width:100%;max-width:min(95vw,1380px);align-items:center}
+.split.rev{direction:rtl}.split.rev>*{direction:ltr}
+.illus{display:flex;justify-content:center;align-items:center}
+
+/* FOUNDATION */
+.fcg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:min(95vw,1380px);margin-top:36px}
+.fc{border-radius:16px;padding:24px 22px;border:1px solid var(--br);background:var(--sf);position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.fc:hover{transform:translateY(-4px);border-color:var(--br2)}
+.fc-num{position:absolute;top:12px;right:16px;font-size:54px;font-weight:700;line-height:1;opacity:.05}
+.badge{display:inline-block;padding:4px 11px;border-radius:100px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-bottom:0;border:1px solid}
+.fc-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:14px 0 8px}
+.fc-desc{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.fc-ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.fc-ul li{font-size:11px;color:var(--dim);display:flex;align-items:flex-start;gap:7px;line-height:1.5}
+.fc-ul li::before{content:'→';color:var(--g);font-size:10px;margin-top:2px;flex-shrink:0}
+.fc-img{height:70px;display:flex;align-items:center;margin-bottom:2px}
+
+/* METHOD */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:min(95vw,1380px)}
+.mp{border:1px solid var(--br);border-radius:16px;padding:24px;background:var(--sf)}
+.mp-t{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.dt{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.dt-n{width:24px;height:24px;border-radius:50%;background:var(--gd);border:1px solid rgba(45,222,152,.2);color:var(--g);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dt-h{font-size:13px;font-weight:600;margin-bottom:2px;letter-spacing:-.01em}
+.dt-p{font-size:11px;color:var(--muted);line-height:1.5}
+.kb{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.kc{border-radius:8px;padding:9px;background:rgba(255,255,255,.03);border:1px solid var(--br)}
+.kct{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;font-weight:500}
+.ki{background:rgba(255,255,255,.04);border:1px solid var(--br);border-radius:5px;padding:6px;font-size:10px;color:var(--muted);line-height:1.4}
+.ki.done{border-color:rgba(45,222,152,.2);color:var(--g);background:var(--gd)}
+
+/* INFRA */
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%;max-width:min(95vw,1380px);margin-top:36px}
+.ic{border:1px solid var(--br);border-radius:16px;padding:24px;background:var(--sf);position:relative;overflow:hidden}
+.ic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.ic.p::before{background:linear-gradient(90deg,var(--g),transparent)}
+.ic.b::before{background:linear-gradient(90deg,var(--b),transparent)}
+.ic-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.ic-t{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.ic-s{font-size:10px;color:var(--dim);margin-top:3px}
+.sl{display:flex;flex-direction:column;gap:9px}
+.si{display:flex;justify-content:space-between;align-items:center;padding-bottom:9px;border-bottom:1px solid var(--br)}
+.si:last-child{border:none;padding:0}
+.sil{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em}
+.siv{font-size:12px;font-weight:600;letter-spacing:-.01em}
+.raid{grid-column:1/-1;border:1px solid rgba(45,222,152,.15);border-radius:12px;padding:18px 24px;background:var(--gd);display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.raid-t{font-size:20px;font-weight:700;color:var(--g);white-space:nowrap;letter-spacing:-.02em}
+.rf{display:flex;flex-direction:column;gap:2px}
+.rft{font-size:12px;font-weight:600}
+.rfd{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* SECURITY */
+.scg{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;width:100%;margin-top:20px}
+.sc{border:1px solid var(--br);border-radius:14px;padding:22px;background:var(--sf);display:flex;gap:14px;transition:border-color .3s,transform .3s}
+.sc:hover{border-color:var(--br2);transform:translateY(-2px)}
+.sico{width:42px;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.sc h3{font-size:15px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+.sc p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.sbadge{font-size:10px;padding:3px 8px;border-radius:100px;display:inline-block;background:var(--gd);color:var(--g);border:1px solid rgba(45,222,152,.15)}
+
+/* RESULTS */
+#resultados{background:#060606;position:relative}
+.resbg{position:absolute;inset:0;background-image:linear-gradient(rgba(45,222,152,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(45,222,152,.018) 1px,transparent 1px);background-size:56px 56px;pointer-events:none}
+.rc{position:relative;z-index:1;width:100%;max-width:min(95vw,1380px);text-align:center}
+.bs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+.bst{border:1px solid var(--br);border-radius:16px;padding:26px 18px;background:var(--sf);position:relative;overflow:hidden;transition:transform .4s,border-color .3s}
+.bst::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:55%;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:.5}
+.bst:hover{transform:translateY(-4px);border-color:rgba(45,222,152,.2)}
+.bst-l{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.bst-n{font-size:clamp(34px,4vw,54px);font-weight:700;line-height:1;margin-bottom:8px;letter-spacing:-.04em;color:var(--g)}
+.bst-n.bl{color:var(--b)}.bst-n.am{color:var(--a)}
+.bst-s{font-size:11px;color:var(--muted);line-height:1.5}
+.bg2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.bcard{border:1px solid var(--br);border-radius:14px;padding:22px;background:var(--sf);text-align:left}
+.bclabel{font-size:10px;color:var(--dim);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
+.bctitle{font-size:15px;font-weight:600;letter-spacing:-.01em;margin-bottom:18px}
+.brows{display:flex;flex-direction:column;gap:10px}
+.brow{display:flex;align-items:center;gap:10px}
+.brl{font-size:11px;color:var(--muted);width:70px;flex-shrink:0}
+.bt{flex:1;height:7px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.bf{height:100%;border-radius:4px;transition:width 1.6s cubic-bezier(.16,1,.3,1);width:0}
+.bf.old{background:rgba(255,82,82,.45)}
+.bf.new{background:linear-gradient(90deg,var(--g),rgba(45,222,152,.6))}
+.bv{font-size:12px;font-weight:700;width:68px;text-align:right;flex-shrink:0}
+.bv.old{color:var(--r)}.bv.new{color:var(--g)}
+.eco{margin-top:18px;padding:24px 36px;border:1px solid rgba(45,222,152,.18);border-radius:14px;background:var(--gd);text-align:center}
+.eco-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:6px}
+.eco-n{font-size:clamp(26px,4vw,44px);font-weight:700;color:var(--g);letter-spacing:-.03em}
+.eco-s{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* CONCLUSION */
+#conclusao{background:var(--bg);text-align:center}
+.corb{position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(45,222,152,.05) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);filter:blur(40px);pointer-events:none}
+.cc{position:relative;z-index:1;max-width:820px}
+.cq{font-size:clamp(26px,4vw,50px);font-weight:700;line-height:1.15;letter-spacing:-.03em;margin-bottom:40px}
+.cpills{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:48px}
+.cp{padding:9px 18px;border-radius:100px;font-size:13px;border:1px solid var(--br2);color:var(--muted);background:var(--sf)}
+.cp.g{border-color:rgba(45,222,152,.3);color:var(--g);background:var(--gd)}
+
+@media(max-width:768px){
+  section{padding:48px 16px}
+  .split,.fcg,.mg,.ig,.scg,.bs,.bg2{grid-template-columns:1fr}
+  .split.rev{direction:ltr}
+  .kb{grid-template-columns:repeat(2,1fr)}
+  .raid{flex-direction:column;gap:16px}
 }
 
-body {
-    font-family: Arial;
-    background: #0a0a0a;
-    color: #f1f1f1;
+/* ===== AJUSTES FINAIS — VERSÃO LAPIDADA ===== */
+:root{--muted:#9a9a9a;--dim:#5f5f5f}
+body{background:#050505}
+section{padding-top:72px;padding-bottom:72px}
+.h1{max-width:1080px;margin-left:auto;margin-right:auto}
+.lead{font-size:clamp(15px,1.55vw,19px);color:#a3a3a3}
+.card,.fc,.mp,.ic,.sc,.bst,.bcard{box-shadow:0 18px 60px rgba(0,0,0,.22)}
+.hero-tags{margin-top:32px;margin-bottom:30px}
+#hero .authors{margin-top:6px}
+/* deixa a apresentação menos carregada e mais keynote */
+#problema .split > div:first-child > div:last-child .card:nth-child(3){display:none}
+.fc-ul li:nth-child(n+4){display:none}
+.scg .sc:nth-child(n+5){display:none}
+.cpills .cp:nth-child(n+5){display:none}
+#fundacao .fc-desc{min-height:64px}
+#metodologia .mp{padding:30px}
+#resultados .bst{padding:34px 22px}
+#conclusao .lead{max-width:700px}
+.tag{font-weight:500;letter-spacing:.01em}
+@media(min-width:900px){
+  #problema .split{grid-template-columns:.9fr 1.1fr}
+  #hero-illus svg{transform:scale(1.06)}
+}
+@media(max-width:768px){
+  .h1{font-size:clamp(34px,11vw,58px)}
+  .h2{font-size:clamp(28px,9vw,44px)}
+  #dots{display:none}
 }
 
-/* NAVBAR */
-nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 15px;
-    z-index: 1000;
+
+/* ===== SISTEMA ANIMADO: PCs → Servidor Linux/Samba → Backup Rsync ===== */
+.system-stage{
+  position:relative;
+  width:min(1120px,94vw);
+  min-height:520px;
+  margin:36px auto 0;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:34px;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(45,222,152,.10), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  box-shadow:0 38px 110px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.system-grid{
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(circle at center, black 0%, transparent 75%);
+}
+.system-label{
+  position:absolute;
+  top:22px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:8px 16px;
+  border:1px solid rgba(45,222,152,.25);
+  border-radius:999px;
+  color:#2DDE98;
+  background:rgba(45,222,152,.08);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  z-index:5;
+}
+.node{
+  position:absolute;
+  z-index:4;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.055);
+  backdrop-filter:blur(14px);
+  box-shadow:0 24px 70px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.pc-node{
+  width:128px;
+  height:92px;
+  border-radius:22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+.pc-node .screen{
+  width:70px;height:42px;border-radius:8px;
+  border:1px solid rgba(77,168,255,.35);
+  background:linear-gradient(145deg, rgba(77,168,255,.18), rgba(255,255,255,.035));
+  position:relative;
+}
+.pc-node .screen:before{
+  content:"";
+  position:absolute;left:10px;right:10px;top:10px;height:5px;
+  border-radius:8px;background:rgba(255,255,255,.20);
+  box-shadow:0 12px 0 rgba(255,255,255,.08);
+}
+.pc-node .stand{width:34px;height:5px;border-radius:99px;background:rgba(77,168,255,.35)}
+.pc-node small{font-size:10px;color:rgba(255,255,255,.44);letter-spacing:.04em}
+.pc1{left:7%;top:18%;animation:softFloat 6s ease-in-out infinite}
+.pc2{left:5%;top:42%;animation:softFloat 7s ease-in-out infinite -1s}
+.pc3{left:8%;bottom:13%;animation:softFloat 6.6s ease-in-out infinite -2s}
+
+.server-node{
+  width:210px;
+  height:230px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  border-radius:34px;
+  border-color:rgba(45,222,152,.25);
+  background:linear-gradient(180deg, rgba(45,222,152,.11), rgba(255,255,255,.035));
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:13px;
+}
+.server-box{
+  width:136px;
+  height:104px;
+  border-radius:18px;
+  border:1px solid rgba(45,222,152,.45);
+  background:rgba(0,0,0,.22);
+  padding:16px;
+}
+.server-line{height:9px;border-radius:99px;background:rgba(45,222,152,.35);margin-bottom:12px}
+.server-line:nth-child(2){width:72%;opacity:.7}
+.server-line:nth-child(3){width:52%;opacity:.45}
+.server-leds{display:flex;gap:7px;margin-top:14px}
+.server-leds span{width:8px;height:8px;border-radius:50%;background:#2DDE98;box-shadow:0 0 16px rgba(45,222,152,.85);animation:blink 1.4s infinite}
+.server-leds span:nth-child(2){animation-delay:.35s;opacity:.6}
+.server-leds span:nth-child(3){animation-delay:.7s;opacity:.35}
+.server-node h3{font-size:20px;letter-spacing:-.03em}
+.server-node p{font-size:11px;color:rgba(255,255,255,.45);text-align:center;line-height:1.4}
+
+.backup-node{
+  width:168px;
+  height:168px;
+  right:8%;
+  top:50%;
+  transform:translateY(-50%);
+  border-radius:34px;
+  border-color:rgba(255,181,71,.24);
+  background:linear-gradient(180deg, rgba(255,181,71,.10), rgba(255,255,255,.035));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.disk-stack{position:relative;width:84px;height:62px}
+.disk-stack span{
+  position:absolute;left:0;width:84px;height:28px;border-radius:50%;
+  background:rgba(255,181,71,.18);
+  border:1px solid rgba(255,181,71,.42);
+}
+.disk-stack span:nth-child(1){top:0}
+.disk-stack span:nth-child(2){top:17px}
+.disk-stack span:nth-child(3){top:34px}
+.backup-node h3{font-size:17px;letter-spacing:-.02em}
+.backup-node p{font-size:10px;color:rgba(255,255,255,.42)}
+
+.flow-svg{
+  position:absolute;inset:0;width:100%;height:100%;z-index:2;
+}
+.flow-line{
+  fill:none;
+  stroke:rgba(45,222,152,.22);
+  stroke-width:2;
+  stroke-dasharray:8 8;
+  animation:dashFlow 1.6s linear infinite;
+}
+.flow-line.backup{
+  stroke:rgba(255,181,71,.28);
+  stroke-width:2.5;
+}
+.data-packet{
+  position:absolute;
+  z-index:6;
+  width:18px;
+  height:18px;
+  border-radius:7px;
+  background:linear-gradient(145deg,#2DDE98,#4DA8FF);
+  box-shadow:0 0 24px rgba(45,222,152,.75);
+}
+.packet-a{animation:pcToServerA 4s ease-in-out infinite}
+.packet-b{animation:pcToServerB 4s ease-in-out infinite .7s}
+.packet-c{animation:pcToServerC 4s ease-in-out infinite 1.4s}
+.packet-backup{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(145deg,#FFB547,#2DDE98);
+  box-shadow:0 0 28px rgba(255,181,71,.75);
+  animation:serverToBackup 4s ease-in-out infinite 2.1s;
+}
+.protocol-chip{
+  position:absolute;
+  z-index:7;
+  padding:8px 13px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(0,0,0,.38);
+  backdrop-filter:blur(14px);
+}
+.samba-chip{left:33%;top:24%;color:#2DDE98;border-color:rgba(45,222,152,.25)}
+.rsync-chip{right:23%;top:33%;color:#FFB547;border-color:rgba(255,181,71,.25)}
+.legend-flow{
+  position:absolute;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  z-index:7;
+}
+.legend-flow span{
+  padding:8px 13px;
+  border-radius:999px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.08);
+  color:rgba(255,255,255,.52);
+  font-size:11px;
+}
+@keyframes dashFlow{to{stroke-dashoffset:-32}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes softFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+@keyframes pcToServerA{
+  0%{left:14%;top:25%;opacity:0;transform:scale(.7)}
+  12%{opacity:1}
+  48%{left:45%;top:42%;opacity:1;transform:scale(1)}
+  60%,100%{left:48%;top:45%;opacity:0;transform:scale(.7)}
+}
+@keyframes pcToServerB{
+  0%{left:13%;top:48%;opacity:0;transform:scale(.7)}
+  12%{opacity:1}
+  48%{left:45%;top:50%;opacity:1;transform:scale(1)}
+  60%,100%{left:48%;top:50%;opacity:0;transform:scale(.7)}
+}
+@keyframes pcToServerC{
+  0%{left:15%;top:70%;opacity:0;transform:scale(.7)}
+  12%{opacity:1}
+  48%{left:45%;top:58%;opacity:1;transform:scale(1)}
+  60%,100%{left:48%;top:55%;opacity:0;transform:scale(.7)}
+}
+@keyframes serverToBackup{
+  0%,35%{left:54%;top:49%;opacity:0;transform:scale(.75)}
+  45%{opacity:1}
+  82%{left:78%;top:49%;opacity:1;transform:scale(1.05)}
+  100%{left:84%;top:49%;opacity:0;transform:scale(.75)}
+}
+@media(max-width:820px){
+  .system-stage{min-height:620px}
+  .pc-node{width:96px;height:74px}
+  .server-node{width:160px;height:190px}
+  .backup-node{width:126px;height:126px;right:4%}
+  .protocol-chip{display:none}
 }
 
-nav a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.3s;
+
+/* ===== PARTE 04 - PAULO ARTHUR: fiel aos slides ===== */
+.paulo-wrap{
+  width:min(1180px,94vw);
+  margin:34px auto 0;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:18px;
+  align-items:stretch;
+}
+.paulo-card{
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.045);
+  border-radius:24px;
+  padding:26px;
+  box-shadow:0 28px 90px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(16px);
+}
+.paulo-title{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:#2DDE98;
+  margin-bottom:12px;
+}
+.case-list{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+  margin-top:20px;
+}
+.case-item{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:16px;
+  padding:15px 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.case-item:last-child{border-bottom:0}
+.case-k{
+  color:rgba(255,255,255,.42);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.case-v{
+  color:rgba(255,255,255,.84);
+  font-size:15px;
+  line-height:1.55;
+}
+.perf-box{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.speed-row{
+  display:grid;
+  grid-template-columns:86px 1fr 88px;
+  gap:14px;
+  align-items:center;
+  margin:15px 0;
+}
+.speed-label{
+  font-size:11px;
+  color:rgba(255,255,255,.44);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.speed-track{
+  height:12px;
+  border-radius:99px;
+  background:rgba(255,255,255,.06);
+  overflow:hidden;
+}
+.speed-fill{
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#2DDE98,rgba(77,168,255,.75));
+  width:0;
+}
+.speed-old{background:rgba(255,82,82,.48)}
+.speed-value{
+  text-align:right;
+  font-weight:800;
+  letter-spacing:-.04em;
+  font-size:24px;
+}
+.speed-value.old{color:#FF5252}
+.speed-value.new{color:#2DDE98}
+.impact-400{
+  margin-top:24px;
+  padding:20px;
+  border:1px solid rgba(45,222,152,.22);
+  background:rgba(45,222,152,.075);
+  border-radius:18px;
+  text-align:center;
+}
+.impact-400 strong{
+  display:block;
+  font-size:54px;
+  line-height:1;
+  color:#2DDE98;
+  letter-spacing:-.06em;
+}
+.impact-400 span{
+  font-size:13px;
+  color:rgba(255,255,255,.55);
+}
+.backup-table{
+  width:min(1180px,94vw);
+  margin:18px auto 0;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:24px;
+  overflow:hidden;
+  background:rgba(255,255,255,.04);
+  box-shadow:0 28px 90px rgba(0,0,0,.28);
+}
+.bt-head,.bt-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+}
+.bt-head div{
+  padding:15px 18px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:#2DDE98;
+  background:rgba(45,222,152,.08);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.bt-row div{
+  padding:16px 18px;
+  font-size:14px;
+  color:rgba(255,255,255,.72);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.bt-row:last-child div{border-bottom:0}
+.bt-row div:nth-child(2){color:rgba(255,181,71,.82)}
+.bt-row div:nth-child(3){color:rgba(45,222,152,.86)}
+.advantages{
+  width:min(1180px,94vw);
+  margin:18px auto 0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.adv{
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.04);
+  border-radius:18px;
+  padding:18px;
+}
+.adv h4{
+  font-size:14px;
+  color:white;
+  margin-bottom:8px;
+}
+.adv p{
+  font-size:12px;
+  color:rgba(255,255,255,.48);
+  line-height:1.5;
+}
+.paulo-final{
+  width:min(900px,94vw);
+  margin:24px auto 0;
+  text-align:center;
+  color:rgba(255,255,255,.72);
+  font-size:18px;
+  line-height:1.55;
+}
+@keyframes fill30{to{width:25%}}
+@keyframes fill120{to{width:100%}}
+#resultados .speed-old{animation:fill30 1.2s ease-out forwards}
+#resultados .speed-new{animation:fill120 1.4s ease-out .25s forwards}
+@media(max-width:900px){
+  .paulo-wrap,.advantages{grid-template-columns:1fr}
+  .case-item{grid-template-columns:1fr}
+  .bt-head,.bt-row{grid-template-columns:1fr}
 }
 
-nav a:hover {
-    color: #aaa;
+
+/* ===== PAULO ARTHUR SPLIT SECTIONS ===== */
+.paulo-single{
+  width:min(1100px,94vw);
+  margin:34px auto 0;
+}
+.paulo-case-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:16px;
+  margin-top:28px;
+}
+.paulo-big-card{
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+}
+.paulo-big-card .big-icon{font-size:42px;margin-bottom:16px}
+.paulo-big-card h3{font-size:22px;margin-bottom:12px}
+.paulo-big-card p{font-size:15px;color:rgba(255,255,255,.62);line-height:1.6}
+.paulo-performance{
+  width:min(1050px,94vw);
+  margin:40px auto 0;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:22px;
+  align-items:center;
+}
+.speed-tile{
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.045);
+  border-radius:28px;
+  padding:38px;
+  text-align:center;
+  min-height:260px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.speed-tile.old{border-color:rgba(255,82,82,.18)}
+.speed-tile.new{border-color:rgba(45,222,152,.22)}
+.speed-tile .speed-name{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:rgba(255,255,255,.45);
+  margin-bottom:18px;
+}
+.speed-tile .speed-number{
+  font-size:86px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-.07em;
+}
+.speed-tile.old .speed-number{color:#FF5252}
+.speed-tile.new .speed-number{color:#2DDE98}
+.speed-tile .speed-unit{font-size:16px;color:rgba(255,255,255,.42);margin-top:8px}
+.performance-arrow{
+  color:#2DDE98;
+  font-size:54px;
+  filter:drop-shadow(0 0 22px rgba(45,222,152,.35));
+}
+.impact-full{
+  width:min(900px,94vw);
+  margin:30px auto 0;
+  padding:24px 30px;
+  border:1px solid rgba(45,222,152,.22);
+  background:rgba(45,222,152,.075);
+  border-radius:26px;
+  text-align:center;
+}
+.impact-full strong{
+  font-size:82px;
+  line-height:1;
+  color:#2DDE98;
+  letter-spacing:-.07em;
+}
+.impact-full span{
+  display:block;
+  margin-top:8px;
+  color:rgba(255,255,255,.62);
+  font-size:16px;
+}
+.backup-table.split{
+  margin-top:34px;
+}
+.advantages.split{
+  grid-template-columns:repeat(2,1fr);
+  margin-top:34px;
+}
+.advantages.split .adv{
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.advantages.split .adv h4{font-size:20px}
+.advantages.split .adv p{font-size:14px}
+@media(max-width:900px){
+  .paulo-case-grid,.paulo-performance,.advantages.split{grid-template-columns:1fr}
+  .performance-arrow{transform:rotate(90deg)}
 }
 
-/* HEADER */
-header {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+
+/* ===== PAULO ARTHUR COMPACTADO - menos dividido ===== */
+.paulo-compact-grid{
+  width:min(1180px,94vw);
+  margin:28px auto 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:stretch;
+}
+.paulo-case-mini{
+  display:grid;
+  gap:12px;
+  margin-top:18px;
+}
+.paulo-case-mini .mini-item{
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:16px;
+  background:rgba(255,255,255,.035);
+}
+.paulo-case-mini .mini-item b{
+  color:#2DDE98;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  display:block;
+  margin-bottom:5px;
+}
+.paulo-case-mini .mini-item span{
+  color:rgba(255,255,255,.72);
+  font-size:14px;
+  line-height:1.45;
+}
+.paulo-speed-compact{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
+}
+.paulo-speed-compact .speed-mini{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+  padding:18px;
+  text-align:center;
+}
+.speed-mini small{
+  display:block;
+  color:rgba(255,255,255,.42);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-size:10px;
+  margin-bottom:10px;
+}
+.speed-mini strong{
+  display:block;
+  font-size:50px;
+  line-height:1;
+  letter-spacing:-.06em;
+}
+.speed-mini.old strong{color:#FF5252}
+.speed-mini.new strong{color:#2DDE98}
+.speed-mini span{font-size:12px;color:rgba(255,255,255,.42)}
+.impact-mini{
+  margin-top:14px;
+  border:1px solid rgba(45,222,152,.2);
+  background:rgba(45,222,152,.07);
+  border-radius:18px;
+  padding:16px;
+  text-align:center;
+}
+.impact-mini strong{
+  color:#2DDE98;
+  font-size:42px;
+  line-height:1;
+  letter-spacing:-.05em;
+}
+.impact-mini span{
+  color:rgba(255,255,255,.55);
+  font-size:13px;
+  margin-left:8px;
+}
+.paulo-bottom-grid{
+  width:min(1180px,94vw);
+  margin:28px auto 0;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:18px;
+  align-items:start;
+}
+.backup-table.compact{
+  margin:0;
+  width:100%;
+}
+.backup-table.compact .bt-head div{
+  padding:12px 14px;
+  font-size:10px;
+}
+.backup-table.compact .bt-row div{
+  padding:13px 14px;
+  font-size:13px;
+}
+.advantages.compact{
+  margin:0;
+  width:100%;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+.advantages.compact .adv{
+  min-height:auto;
+  padding:16px;
+  border-radius:16px;
+}
+.advantages.compact .adv h4{
+  font-size:15px;
+  margin-bottom:4px;
+}
+.advantages.compact .adv p{
+  font-size:12px;
+  line-height:1.45;
+}
+.paulo-final.compact{
+  font-size:15px;
+  margin-top:18px;
+  width:min(900px,94vw);
+}
+@media(max-width:900px){
+  .paulo-compact-grid,.paulo-bottom-grid,.paulo-speed-compact{grid-template-columns:1fr}
 }
 
-/* TÍTULO */
-h1 {
-    font-size: 45px;
+
+/* ===== CORREÇÃO DEFINITIVA: PAULO BACKUP SEM VAZIO E SEM CORTAR ===== */
+
+#paulo-backup-vantagens{
+  min-height:100vh;
+  padding:54px 48px 42px !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
-/* DIGITAÇÃO */
-.typing {
-    font-size: 18px;
-    margin-top: 10px;
-    color: #aaa;
-    border-right: 2px solid #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    display: inline-block;
-    animation: blink .7s infinite;
+#paulo-backup-vantagens .rc{
+  width:100%;
+  max-width:1180px;
+  margin:0 auto;
+  display:block;
 }
 
-@keyframes blink {
-    50% { border-color: transparent }
+#paulo-backup-vantagens .slabel{
+  margin-bottom:10px;
+  text-align:center;
 }
 
-/* BOTÃO */
-.btn {
-    margin-top: 25px;
-    padding: 12px 25px;
-    background: #fff;
-    color: #000;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: 0.3s;
+#paulo-backup-vantagens .h2{
+  font-size:clamp(36px,4.4vw,58px);
+  line-height:1.02;
+  margin-bottom:28px;
+  text-align:center;
 }
 
-.btn:hover {
-    transform: scale(1.05);
+.paulo-bottom-grid{
+  width:100% !important;
+  margin:0 auto !important;
+  display:grid !important;
+  grid-template-columns:1.25fr .75fr !important;
+  gap:22px !important;
+  align-items:stretch !important;
 }
 
-/* SEÇÕES */
-section {
-    padding: 80px 20px;
+.backup-table.compact{
+  width:100% !important;
+  margin:0 !important;
+  height:100%;
 }
 
-/* CARDS */
-.card {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #111;
-    border-radius: 10px;
-    border: 1px solid #222;
-    opacity: 0;
-    transform: translateY(80px);
-    transition: 0.8s;
+.backup-table.compact .bt-head div{
+  padding:13px 14px !important;
+  font-size:10px !important;
 }
 
-.card.show {
-    opacity: 1;
-    transform: translateY(0);
+.backup-table.compact .bt-row div{
+  padding:17px 14px !important;
+  font-size:14px !important;
 }
 
-/* SKILLS HOVER */
-li {
-    background: #1a1a1a;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    transition: 0.3s;
+.advantages.compact{
+  width:100% !important;
+  margin:0 !important;
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:10px !important;
 }
 
-li:hover {
-    transform: translateX(10px);
-    background: #222;
+.advantages.compact .adv{
+  min-height:74px !important;
+  padding:14px 18px !important;
+  border-radius:16px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
 }
 
-/* PROJETOS */
-.projeto {
-    margin: 20px 0;
-    padding: 20px;
-    background: #1a1a1a;
-    border-radius: 8px;
-    transition: 0.3s;
+.advantages.compact .adv h4{
+  font-size:15px !important;
+  margin-bottom:4px !important;
 }
 
-.projeto:hover {
-    transform: scale(1.03);
+.advantages.compact .adv p{
+  font-size:12px !important;
+  line-height:1.35 !important;
 }
 
-/* CONTATO */
-.contato p {
-    margin-bottom: 18px;
+.paulo-final.compact{
+  width:100% !important;
+  max-width:900px !important;
+  margin:18px auto 0 !important;
+  padding:14px 22px !important;
+  border:1px solid rgba(45,222,152,.18);
+  background:rgba(45,222,152,.055);
+  border-radius:16px;
+  font-size:14px !important;
+  line-height:1.45 !important;
+  color:rgba(255,255,255,.68);
 }
 
-.contato .btn {
-    margin-top: 15px;
-    display: inline-block;
+@media(max-width:900px){
+  #paulo-backup-vantagens{
+    min-height:auto;
+    padding:42px 18px !important;
+    overflow:visible;
+  }
+  .paulo-bottom-grid{
+    grid-template-columns:1fr !important;
+  }
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #000;
+
+/* ===== POLIMENTO VISUAL: PAULO BACKUP INTENCIONAL ===== */
+
+#paulo-backup-vantagens{
+  background:
+    radial-gradient(circle at 28% 42%, rgba(45,222,152,.075), transparent 34%),
+    radial-gradient(circle at 82% 55%, rgba(77,168,255,.045), transparent 30%),
+    #080808 !important;
 }
+
+#paulo-backup-vantagens .rc{
+  position:relative;
+}
+
+#paulo-backup-vantagens .rc::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:132px;
+  width:min(1040px,88vw);
+  height:1px;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg, transparent, rgba(45,222,152,.45), transparent);
+}
+
+#paulo-backup-vantagens .h2{
+  margin-bottom:38px !important;
+}
+
+.paulo-bottom-grid{
+  grid-template-columns:1.05fr .95fr !important;
+  gap:26px !important;
+  align-items:stretch !important;
+}
+
+/* bloco esquerdo vira um painel principal */
+.backup-table.compact{
+  border-radius:28px !important;
+  overflow:hidden !important;
+  border:1px solid rgba(45,222,152,.16) !important;
+  background:
+    linear-gradient(180deg, rgba(45,222,152,.055), rgba(255,255,255,.025)) !important;
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+/* linhas mais “produto premium” */
+.backup-table.compact .bt-head div{
+  background:rgba(45,222,152,.105) !important;
+  border-bottom:1px solid rgba(45,222,152,.12) !important;
+}
+
+.backup-table.compact .bt-row div{
+  padding:20px 18px !important;
+  border-bottom:1px solid rgba(255,255,255,.055) !important;
+}
+
+.backup-table.compact .bt-row:last-child div{
+  border-bottom:none !important;
+}
+
+/* vantagens como painel vertical intencional */
+.advantages.compact{
+  position:relative;
+  gap:12px !important;
+}
+
+
+.advantages.compact::before{
+  content: none !important;
+  display: none !important;
+}
+
+/* removed label */
+.advantages.compact::before{
+  content:"Uso real";
+  display:block;
+  color:#2DDE98;
+  font-size:11px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  margin-bottom:2px;
+  text-align:left;
+}
+
+.advantages.compact .adv{
+  position:relative;
+  overflow:hidden;
+  min-height:86px !important;
+  padding:18px 20px 18px 56px !important;
+  text-align:left !important;
+  border-radius:20px !important;
+  border:1px solid rgba(255,255,255,.09) !important;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.025)) !important;
+  box-shadow:0 18px 60px rgba(0,0,0,.24);
+}
+
+.advantages.compact .adv::before{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#2DDE98;
+  background:rgba(45,222,152,.10);
+  border:1px solid rgba(45,222,152,.22);
+  font-size:13px;
+}
+
+.advantages.compact .adv:nth-child(1)::before{content:"✓"}
+.advantages.compact .adv:nth-child(2)::before{content:"⏱"}
+.advantages.compact .adv:nth-child(3)::before{content:"R$"}
+.advantages.compact .adv:nth-child(4)::before{content:"↗"}
+
+.advantages.compact .adv h4{
+  font-size:16px !important;
+  margin-bottom:5px !important;
+}
+
+.advantages.compact .adv p{
+  font-size:12.5px !important;
+  color:rgba(255,255,255,.52) !important;
+}
+
+/* frase final como assinatura da seção, não remendo */
+.paulo-final.compact{
+  margin-top:26px !important;
+  padding:18px 26px !important;
+  max-width:980px !important;
+  border-radius:999px !important;
+  border:1px solid rgba(45,222,152,.20) !important;
+  background:
+    linear-gradient(90deg, transparent, rgba(45,222,152,.075), transparent) !important;
+  box-shadow:0 18px 70px rgba(45,222,152,.045);
+  white-space:normal;
+  text-align:center;
+}
+
+@media(max-width:900px){
+  .paulo-bottom-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .paulo-final.compact{
+    border-radius:22px !important;
+  }
+}
+
+
+/* ===== CORREÇÃO FINAL PAULO: ALINHAMENTO E SEM VAZIO NA CAIXA ===== */
+
+#paulo-backup-vantagens{
+  padding:64px 48px 52px !important;
+  min-height:100vh !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+/* remove a linha que estava atravessando o título */
+#paulo-backup-vantagens .rc::before{
+  display:none !important;
+}
+
+#paulo-backup-vantagens .rc{
+  width:100% !important;
+  max-width:1180px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+}
+
+#paulo-backup-vantagens .h2{
+  font-size:clamp(38px,4.3vw,62px) !important;
+  line-height:.98 !important;
+  margin:0 0 34px !important;
+  text-align:center !important;
+}
+
+/* layout principal alinhado */
+.paulo-bottom-grid{
+  width:100% !important;
+  display:grid !important;
+  grid-template-columns:1.12fr .88fr !important;
+  gap:24px !important;
+  align-items:start !important;
+  margin:0 !important;
+}
+
+/* tabela não estica mais */
+.backup-table.compact{
+  height:auto !important;
+  min-height:0 !important;
+  align-self:start !important;
+  width:100% !important;
+  margin:0 !important;
+  border-radius:24px !important;
+}
+
+/* linhas da tabela com altura natural */
+.backup-table.compact .bt-head div{
+  padding:13px 16px !important;
+}
+
+.backup-table.compact .bt-row div{
+  padding:18px 16px !important;
+  font-size:14px !important;
+}
+
+/* coluna direita com altura natural */
+.advantages.compact{
+  width:100% !important;
+  margin:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+  align-self:start !important;
+}
+
+
+.advantages.compact::before{
+  content: none !important;
+  display: none !important;
+}
+
+/* removed label */
+.advantages.compact::before{
+  margin-bottom:2px !important;
+}
+
+.advantages.compact .adv{
+  min-height:92px !important;
+  padding:18px 20px 18px 58px !important;
+}
+
+/* assinatura fica abaixo, centralizada, sem parecer remendo */
+.paulo-final.compact{
+  width:min(980px,100%) !important;
+  margin:24px auto 0 !important;
+  padding:16px 26px !important;
+  border-radius:22px !important;
+  font-size:14.5px !important;
+  line-height:1.45 !important;
+}
+
+/* adiciona preenchimento visual intencional abaixo da tabela, fora dela */
+.paulo-bottom-grid::after{
+  content:"Tempo menor • Backup automático • Verificação via checksum";
+  grid-column:1 / 2;
+  display:block;
+  margin-top:-2px;
+  padding:15px 18px;
+  border-radius:18px;
+  border:1px solid rgba(45,222,152,.16);
+  background:rgba(45,222,152,.055);
+  color:rgba(45,222,152,.78);
+  font-size:13px;
+  text-align:center;
+  letter-spacing:.01em;
+}
+
+/* no grid, o after precisa ficar embaixo da tabela, mas sem empurrar cards */
+@supports (display:grid){
+  .paulo-bottom-grid::after{
+    align-self:start;
+  }
+}
+
+@media(max-width:900px){
+  #paulo-backup-vantagens{
+    min-height:auto !important;
+    overflow:visible !important;
+    padding:48px 18px !important;
+  }
+
+  .paulo-bottom-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .paulo-bottom-grid::after{
+    grid-column:1 !important;
+  }
+}
+
+
+/* ===== LAYOUT FINAL: TABELA NO MEIO + VANTAGENS 2x2 ===== */
+#paulo-backup-vantagens .paulo-bottom-grid{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:22px !important;
+  width:100% !important;
+  margin:0 auto !important;
+}
+
+#paulo-backup-vantagens .backup-table.compact{
+  width:min(820px,100%) !important;
+  max-width:820px !important;
+  margin:0 auto !important;
+  align-self:center !important;
+}
+
+/* Remove a faixa extra que eu tinha colocado */
+#paulo-backup-vantagens .paulo-bottom-grid::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* Vantagens abaixo da tabela em 2x2 */
+#paulo-backup-vantagens .advantages.compact{
+  width:min(820px,100%) !important;
+  max-width:820px !important;
+  margin:0 auto !important;
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:14px !important;
+}
+
+#paulo-backup-vantagens 
+.advantages.compact::before{
+  content: none !important;
+  display: none !important;
+}
+
+/* removed label */
+.advantages.compact::before{
+  grid-column:1 / -1 !important;
+  text-align:center !important;
+  margin:0 0 2px !important;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv{
+  min-height:105px !important;
+  padding:18px 20px 18px 58px !important;
+  text-align:left !important;
+}
+
+#paulo-backup-vantagens .paulo-final.compact{
+  width:min(820px,100%) !important;
+  max-width:820px !important;
+  margin:20px auto 0 !important;
+}
+
+@media(max-width:760px){
+  #paulo-backup-vantagens .advantages.compact{
+    grid-template-columns:1fr !important;
+  }
+}
+
+
+/* ===== ÚLTIMO NÍVEL: VANTAGENS EM LINHA PREMIUM ===== */
+#paulo-backup-vantagens .advantages.compact{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:stretch !important;
+  gap:0 !important;
+  width:min(980px,100%) !important;
+  max-width:980px !important;
+  margin:24px auto 0 !important;
+  border-radius:24px !important;
+  background:
+    radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(45,222,152,.16), transparent 34%),
+    rgba(255,255,255,.035) !important;
+  backdrop-filter:blur(18px) !important;
+  border:1px solid rgba(255,255,255,.075) !important;
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.09) !important;
+  overflow:hidden !important;
+}
+
+#paulo-backup-vantagens .advantages.compact::before{
+  content:none !important;
+  display:none !important;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv{
+  flex:1 !important;
+  min-height:112px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  padding:22px 18px !important;
+  text-align:center !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:center !important;
+  position:relative !important;
+  overflow:hidden !important;
+  transition:transform .28s ease, background .28s ease !important;
+  opacity:0;
+  transform:translateY(12px);
+  animation:advFadeUp .65s ease forwards;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv:nth-child(1){animation-delay:.08s}
+#paulo-backup-vantagens .advantages.compact .adv:nth-child(2){animation-delay:.16s}
+#paulo-backup-vantagens .advantages.compact .adv:nth-child(3){animation-delay:.24s}
+#paulo-backup-vantagens .advantages.compact .adv:nth-child(4){animation-delay:.32s}
+
+#paulo-backup-vantagens .advantages.compact .adv:not(:last-child)::after{
+  content:"" !important;
+  position:absolute !important;
+  right:0 !important;
+  top:18% !important;
+  width:1px !important;
+  height:64% !important;
+  background:linear-gradient(to bottom, transparent, rgba(255,255,255,.16), transparent) !important;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv::before{
+  position:static !important;
+  transform:none !important;
+  width:30px !important;
+  height:30px !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 0 10px !important;
+  color:#2DDE98 !important;
+  background:rgba(45,222,152,.10) !important;
+  border:1px solid rgba(45,222,152,.25) !important;
+  font-size:13px !important;
+  box-shadow:0 0 18px rgba(45,222,152,.08) !important;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv:hover{
+  background:rgba(45,222,152,.065) !important;
+  transform:translateY(-3px) !important;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv:hover::before{
+  box-shadow:0 0 26px rgba(45,222,152,.30) !important;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv h4{
+  font-size:14px !important;
+  line-height:1.15 !important;
+  margin:0 0 6px !important;
+  color:#fff !important;
+  letter-spacing:-.02em !important;
+}
+
+#paulo-backup-vantagens .advantages.compact .adv p{
+  font-size:11.5px !important;
+  line-height:1.35 !important;
+  color:rgba(255,255,255,.55) !important;
+  max-width:190px !important;
+}
+
+/* tabela central com respiro melhor */
+#paulo-backup-vantagens .backup-table.compact{
+  width:min(980px,100%) !important;
+  max-width:980px !important;
+  margin:0 auto !important;
+}
+
+/* frase final menor e bem integrada */
+#paulo-backup-vantagens .paulo-final.compact{
+  width:min(980px,100%) !important;
+  max-width:980px !important;
+  margin:20px auto 0 !important;
+  padding:14px 24px !important;
+  border-radius:999px !important;
+  font-size:13.5px !important;
+}
+
+@keyframes advFadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@media(max-width:860px){
+  #paulo-backup-vantagens .advantages.compact{
+    flex-direction:column !important;
+    border-radius:22px !important;
+  }
+  #paulo-backup-vantagens .advantages.compact .adv:not(:last-child)::after{
+    right:10% !important;
+    left:10% !important;
+    top:auto !important;
+    bottom:0 !important;
+    width:80% !important;
+    height:1px !important;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent) !important;
+  }
+}
+
+
+/* ===== FORCE HORIZONTAL + ALIGN WITH TABLE ===== */
+#paulo-backup-vantagens .advantages.compact{
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: min(980px, 100%) !important;
+  max-width: 980px !important;
+  margin: 24px auto 0 !important;
+}
+
+/* remove mobile vertical behavior */
+@media(max-width:860px){
+  #paulo-backup-vantagens .advantages.compact{
+    flex-direction: row !important;
+  }
+}
+
 </style>
 </head>
-
 <body>
+<div id="pgbar"></div>
+<div id="dots"></div>
 
-<!-- NAVBAR -->
-<nav>
-<a href="#sobre">Sobre</a>
-<a href="#skills">Habilidades</a>
-<a href="#projetos">Projetos</a>
-<a href="#contato">Contato</a>
-</nav>
+<!-- ══════ HERO ══════ -->
+<section id="hero">
+  <div class="o1 orb"></div><div class="o2 orb"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
 
-<header>
-<h1>Victor Henrique</h1>
-<p class="typing"></p>
-<a href="#contato" class="btn">Fale comigo</a>
-</header>
+    <!-- Network topology illustration -->
+    <div id="hero-illus" class="rs" style="margin-bottom:40px;will-change:transform;transition:opacity .1s">
+      <svg viewBox="0 0 500 210" width="500" height="210" style="max-width:100%">
+        <defs>
+          <marker id="arrH" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(45,222,152,.45)"/></marker>
+          <marker id="arrHb" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(77,168,255,.45)"/></marker>
+        </defs>
+        <!-- Center server -->
+        <rect x="195" y="68" width="110" height="72" rx="10" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.35)" stroke-width="1.5"/>
+        <rect x="203" y="80" width="94" height="10" rx="4" fill="rgba(45,222,152,.2)"/>
+        <rect x="203" y="95" width="64" height="5" rx="2.5" fill="rgba(45,222,152,.1)"/>
+        <rect x="203" y="104" width="44" height="5" rx="2.5" fill="rgba(45,222,152,.07)"/>
+        <circle cx="278" cy="116" r="4" fill="var(--g)"><animate attributeName="opacity" values="1;.2;1" dur="1.4s" repeatCount="indefinite"/></circle>
+        <circle cx="268" cy="116" r="3" fill="rgba(45,222,152,.4)"><animate attributeName="opacity" values=".4;1;.4" dur="2s" repeatCount="indefinite"/></circle>
+        <text x="250" y="154" text-anchor="middle" fill="rgba(45,222,152,.65)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600" letter-spacing="1">SERVIDOR LINUX</text>
 
-<section>
+        <!-- Left connections -->
+        <line x1="195" y1="96" x2="96" y2="52" stroke="rgba(45,222,152,.18)" stroke-width="1" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="18;0" dur="2s" repeatCount="indefinite"/></line>
+        <line x1="195" y1="104" x2="74" y2="104" stroke="rgba(45,222,152,.18)" stroke-width="1" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="18;0" dur="2.5s" repeatCount="indefinite"/></line>
+        <line x1="195" y1="116" x2="96" y2="160" stroke="rgba(45,222,152,.18)" stroke-width="1" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="18;0" dur="1.8s" repeatCount="indefinite"/></line>
 
-<div class="card" id="sobre">
-<h2>Sobre mim</h2>
-<p>
-Sou estudante de Técnico em Informática para Internet, atualmente no último módulo do curso. Ao longo da formação, adquiri conhecimentos em lógica de programação, desenvolvimento web com HTML e CSS e fundamentos de redes de computadores.
+        <!-- Right connections -->
+        <line x1="305" y1="96" x2="402" y2="52" stroke="rgba(77,168,255,.18)" stroke-width="1" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="18;0" dur="2.2s" repeatCount="indefinite"/></line>
+        <line x1="305" y1="104" x2="424" y2="104" stroke="rgba(77,168,255,.18)" stroke-width="1" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="18;0" dur="1.7s" repeatCount="indefinite"/></line>
+        <line x1="305" y1="116" x2="402" y2="160" stroke="rgba(77,168,255,.18)" stroke-width="1" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" values="18;0" dur="2.1s" repeatCount="indefinite"/></line>
 
-Tenho interesse tanto em front-end quanto back-end e busco minha primeira oportunidade de estágio para aplicar meus conhecimentos na prática.
-</p>
-</div>
+        <!-- Terminal left 1 -->
+        <g transform="translate(46,30)"><rect width="50" height="34" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width="1"/><rect x="4" y="7" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.14)"/><rect x="4" y="13" width="18" height="2" rx="1" fill="rgba(255,255,255,.08)"/><rect x="4" y="18" width="22" height="2" rx="1" fill="rgba(255,255,255,.06)"/><circle cx="41" cy="9" r="2.5" fill="rgba(45,222,152,.7)"><animate attributeName="opacity" values="1;.3;1" dur="2.1s" repeatCount="indefinite"/></circle></g>
+        <g transform="translate(24,87)"><rect width="50" height="34" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width="1"/><rect x="4" y="7" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.14)"/><rect x="4" y="13" width="18" height="2" rx="1" fill="rgba(255,255,255,.08)"/><rect x="4" y="18" width="22" height="2" rx="1" fill="rgba(255,255,255,.06)"/><circle cx="41" cy="9" r="2.5" fill="rgba(45,222,152,.7)"><animate attributeName="opacity" values="1;.3;1" dur="1.6s" repeatCount="indefinite"/></circle></g>
+        <g transform="translate(46,143)"><rect width="50" height="34" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width="1"/><rect x="4" y="7" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.14)"/><rect x="4" y="13" width="18" height="2" rx="1" fill="rgba(255,255,255,.08)"/><rect x="4" y="18" width="22" height="2" rx="1" fill="rgba(255,255,255,.06)"/><circle cx="41" cy="9" r="2.5" fill="rgba(45,222,152,.7)"><animate attributeName="opacity" values="1;.3;1" dur="2.5s" repeatCount="indefinite"/></circle></g>
 
-<div class="card" id="skills">
-<h2>Habilidades</h2>
-<ul>
-<li>HTML e CSS (nível básico)</li>
-<li>Lógica de Programação</li>
-<li>Redes de Computadores</li>
-<li>Aprendizado rápido</li>
-</ul>
-</div>
+        <!-- Terminal right 1 -->
+        <g transform="translate(402,30)"><rect width="50" height="34" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(77,168,255,.2)" stroke-width="1"/><rect x="4" y="7" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.14)"/><rect x="4" y="13" width="18" height="2" rx="1" fill="rgba(255,255,255,.08)"/><rect x="4" y="18" width="22" height="2" rx="1" fill="rgba(255,255,255,.06)"/><circle cx="41" cy="9" r="2.5" fill="rgba(77,168,255,.8)"><animate attributeName="opacity" values="1;.3;1" dur="1.9s" repeatCount="indefinite"/></circle></g>
+        <g transform="translate(424,87)"><rect width="50" height="34" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(77,168,255,.2)" stroke-width="1"/><rect x="4" y="7" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.14)"/><rect x="4" y="13" width="18" height="2" rx="1" fill="rgba(255,255,255,.08)"/><rect x="4" y="18" width="22" height="2" rx="1" fill="rgba(255,255,255,.06)"/><circle cx="41" cy="9" r="2.5" fill="rgba(77,168,255,.8)"><animate attributeName="opacity" values="1;.3;1" dur="2.4s" repeatCount="indefinite"/></circle></g>
+        <g transform="translate(402,143)"><rect width="50" height="34" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(77,168,255,.2)" stroke-width="1"/><rect x="4" y="7" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.14)"/><rect x="4" y="13" width="18" height="2" rx="1" fill="rgba(255,255,255,.08)"/><rect x="4" y="18" width="22" height="2" rx="1" fill="rgba(255,255,255,.06)"/><circle cx="41" cy="9" r="2.5" fill="rgba(77,168,255,.8)"><animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></circle></g>
 
-<div class="card" id="projetos">
-<h2>Projetos</h2>
+        <text x="12" y="205" fill="rgba(255,255,255,.2)" font-family="-apple-system,sans-serif" font-size="8">80 terminais ativos</text>
+        <text x="380" y="205" text-anchor="end" fill="rgba(255,255,255,.2)" font-family="-apple-system,sans-serif" font-size="8">Samba/Linux</text>
+      </svg>
+    </div>
 
-<div class="projeto">
-<h3>Landing Page</h3>
-<p>Site moderno com HTML e CSS focado em apresentação.</p>
-</div>
+    <div class="eyebrow r d1">Técnico em Informática para Internet</div>
+    <h1 class="h1 r d2">Gestão Estratégica de<br><span class="accent">Tecnologia da Informação</span><br>com Servidor Linux Samba</h1>
+    <p class="lead r d3" style="text-align:center;margin:0 auto 28px">Infraestrutura moderna para instituições públicas: compartilhamento seguro, backup automatizado, alta performance e redução de custos com software livre.</p>
 
-<div class="projeto">
-<h3>Portfólio Pessoal</h3>
-<p>Projeto com animações e design responsivo.</p>
-</div>
+    <div class="hero-tags r d4">
+      <span class="tag tg">Linux · Debian 11</span>
+      <span class="tag tb">Samba · SMB/CIFS</span>
+      <span class="tag ta">Rsync · Backup automático</span>
+    </div>
 
-</div>
-
-<div class="card contato" id="contato">
-<h2>Contato</h2>
-<p>Email: 67victorrocha@gmail.com</p>
-<p>WhatsApp: (32) 99903-8655</p>
-
-<a class="btn" href="https://wa.me/5532999038655" target="_blank">
-Falar no WhatsApp
-</a>
-</div>
-
+    <div class="authors r d5">
+      <div class="author"><div class="ava" style="background:var(--g)">E</div><div><div class="aname">Endrius</div><div class="arole">Fundamentação</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--b)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--a)">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Resultados</div></div></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>scroll</span><div class="arrow-d"></div></div>
 </section>
 
-<footer>
-<p>© 2026 Victor Henrique</p>
-</footer>
+<!-- ══════ PROBLEMA ══════ -->
+<section id="problema" style="background:var(--bg2)">
+  <div class="split">
+    <div>
+      <div class="slabel rl">O Problema · Antes da Solução</div>
+      <h2 class="h2 rl d1">Antes: lento, manual<br>e sem controle central</h2>
+      <p class="lead rl d2" style="margin:16px 0 28px">A instituição dependia de HDs externos USB 2.0. Com cerca de 80 terminais ativos, isso criava gargalo de velocidade, risco humano no backup e baixa rastreabilidade.</p>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card rl d3" style="padding:20px 22px"><div style="font-size:30px;font-weight:700;color:var(--r);letter-spacing:-.03em">30 MB/s</div><div style="font-size:13px;font-weight:600;margin:2px 0">Velocidade USB 2.0</div><div style="font-size:12px;color:var(--muted)">Gargalo crítico com 80 terminais ativos simultaneamente</div></div>
+        <div class="card rl d4" style="padding:20px 22px"><div style="font-size:30px;font-weight:700;color:var(--a);letter-spacing:-.03em">~110 min</div><div style="font-size:13px;font-weight:600;margin:2px 0">Backup Manual</div><div style="font-size:12px;color:var(--muted)">Processo inconsistente com alto risco de falha humana</div></div>
+        <div class="card rl d5" style="padding:20px 22px"><div style="font-size:30px;font-weight:700;color:var(--muted);letter-spacing:-.03em">Sem checksum</div><div style="font-size:13px;font-weight:600;margin:2px 0">Sem Verificação de Integridade</div><div style="font-size:12px;color:var(--muted)">Dados corrompidos sem nenhum alerta automático</div></div>
+      </div>
+    </div>
+    <div class="illus rr d2" style="align-items:stretch;width:100%">
+      <svg viewBox="0 0 320 540" width="320" height="540" style="max-width:100%;width:100%">
+
+        <!-- ─── CARD ANTES ─── -->
+        <rect x="0" y="0" width="320" height="188" rx="14" fill="rgba(255,82,82,.05)" stroke="rgba(255,82,82,.18)" stroke-width="1.5"/>
+        <!-- top accent line -->
+        <rect x="0" y="0" width="320" height="2" rx="14 14 0 0" fill="rgba(255,82,82,.4)"/>
+        <!-- ANTES label -->
+        <text x="16" y="22" fill="rgba(255,82,82,.5)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600" letter-spacing="2">ANTES</text>
+        <!-- USB icon -->
+        <rect x="16" y="34" width="80" height="52" rx="6" fill="rgba(255,82,82,.07)" stroke="rgba(255,82,82,.2)" stroke-width="1"/>
+        <rect x="24" y="42" width="48" height="6" rx="3" fill="rgba(255,82,82,.2)"/>
+        <rect x="24" y="52" width="32" height="3" rx="1.5" fill="rgba(255,82,82,.1)"/>
+        <rect x="24" y="58" width="22" height="3" rx="1.5" fill="rgba(255,82,82,.07)"/>
+        <text x="56" y="79" text-anchor="middle" fill="rgba(255,82,82,.45)" font-family="-apple-system,sans-serif" font-size="8" font-weight="600">USB 2.0</text>
+        <!-- Stat block -->
+        <text x="116" y="56" fill="rgba(255,82,82,.95)" font-family="-apple-system,sans-serif" font-size="36" font-weight="700" letter-spacing="-2">30</text>
+        <text x="116" y="72" fill="rgba(255,82,82,.6)" font-family="-apple-system,sans-serif" font-size="13">MB/s</text>
+        <text x="116" y="85" fill="rgba(255,82,82,.35)" font-family="-apple-system,sans-serif" font-size="9">velocidade de transferência</text>
+        <!-- divider -->
+        <line x1="16" y1="98" x2="304" y2="98" stroke="rgba(255,82,82,.1)" stroke-width="1"/>
+        <!-- Backup stat row -->
+        <text x="16" y="116" fill="rgba(255,255,255,.25)" font-family="-apple-system,sans-serif" font-size="9">Backup manual</text>
+        <text x="304" y="116" text-anchor="end" fill="rgba(255,181,71,.8)" font-family="-apple-system,sans-serif" font-size="14" font-weight="700">~110 min</text>
+        <!-- Backup bar -->
+        <rect x="16" y="122" width="288" height="7" rx="3.5" fill="rgba(255,255,255,.04)"/>
+        <rect x="16" y="122" width="288" height="7" rx="3.5" fill="rgba(255,82,82,.3)"><animate attributeName="opacity" values=".3;.5;.3" dur="2s" repeatCount="indefinite"/></rect>
+        <!-- Integrity row -->
+        <text x="16" y="146" fill="rgba(255,255,255,.25)" font-family="-apple-system,sans-serif" font-size="9">Verificação de integridade</text>
+        <rect x="224" y="135" width="80" height="18" rx="6" fill="rgba(255,82,82,.08)" stroke="rgba(255,82,82,.2)" stroke-width="1"/>
+        <text x="264" y="147" text-anchor="middle" fill="rgba(255,82,82,.7)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">Nenhuma</text>
+        <!-- Freq row -->
+        <text x="16" y="170" fill="rgba(255,255,255,.25)" font-family="-apple-system,sans-serif" font-size="9">Frequência do backup</text>
+        <rect x="190" y="159" width="114" height="18" rx="6" fill="rgba(255,181,71,.07)" stroke="rgba(255,181,71,.2)" stroke-width="1"/>
+        <text x="247" y="171" text-anchor="middle" fill="rgba(255,181,71,.7)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">Inconsistente</text>
+
+        <!-- ─── TRANSITION ─── -->
+        <line x1="160" y1="188" x2="160" y2="218" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="3 3"/>
+        <!-- Moving data packet -->
+        <circle r="4" fill="rgba(45,222,152,.7)"><animateMotion path="M160,195 L160,215" dur="1.2s" repeatCount="indefinite"/></circle>
+        <!-- Gain badge -->
+        <rect x="94" y="218" width="132" height="34" rx="10" fill="rgba(45,222,152,.1)" stroke="rgba(45,222,152,.28)" stroke-width="1.5"/>
+        <text x="160" y="231" text-anchor="middle" fill="rgba(45,222,152,.55)" font-family="-apple-system,sans-serif" font-size="8" letter-spacing="1">GANHO DE PERFORMANCE</text>
+        <text x="160" y="247" text-anchor="middle" fill="var(--g,#2DDE98)" font-family="-apple-system,sans-serif" font-size="16" font-weight="700">+400%</text>
+
+        <!-- ─── CARD DEPOIS ─── -->
+        <rect x="0" y="264" width="320" height="188" rx="14" fill="rgba(45,222,152,.05)" stroke="rgba(45,222,152,.22)" stroke-width="1.5"/>
+        <!-- top accent line -->
+        <rect x="0" y="264" width="320" height="2" rx="14 14 0 0" fill="rgba(45,222,152,.5)"/>
+        <!-- DEPOIS label -->
+        <text x="16" y="286" fill="rgba(45,222,152,.5)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600" letter-spacing="2">DEPOIS</text>
+        <!-- Server icon -->
+        <rect x="16" y="298" width="80" height="52" rx="6" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.25)" stroke-width="1"/>
+        <rect x="20" y="304" width="68" height="7" rx="3" fill="rgba(45,222,152,.2)"/>
+        <rect x="20" y="315" width="46" height="3" rx="1.5" fill="rgba(45,222,152,.1)"/>
+        <rect x="20" y="321" width="32" height="3" rx="1.5" fill="rgba(45,222,152,.07)"/>
+        <circle cx="78" cy="308" r="3" fill="rgba(45,222,152,.9)"><animate attributeName="opacity" values="1;.2;1" dur="1.4s" repeatCount="indefinite"/></circle>
+        <circle cx="70" cy="308" r="2" fill="rgba(45,222,152,.4)"><animate attributeName="opacity" values=".4;1;.4" dur="2s" repeatCount="indefinite"/></circle>
+        <text x="56" y="343" text-anchor="middle" fill="rgba(45,222,152,.45)" font-family="-apple-system,sans-serif" font-size="7" font-weight="600">SAMBA/LINUX</text>
+        <!-- Stat block -->
+        <text x="116" y="320" fill="rgba(45,222,152,.98)" font-family="-apple-system,sans-serif" font-size="36" font-weight="700" letter-spacing="-2">120</text>
+        <text x="116" y="336" fill="rgba(45,222,152,.6)" font-family="-apple-system,sans-serif" font-size="13">MB/s</text>
+        <text x="116" y="349" fill="rgba(45,222,152,.35)" font-family="-apple-system,sans-serif" font-size="9">velocidade de transferência</text>
+        <!-- divider -->
+        <line x1="16" y1="362" x2="304" y2="362" stroke="rgba(45,222,152,.1)" stroke-width="1"/>
+        <!-- Backup stat row -->
+        <text x="16" y="380" fill="rgba(255,255,255,.25)" font-family="-apple-system,sans-serif" font-size="9">Backup automatizado</text>
+        <text x="304" y="380" text-anchor="end" fill="rgba(45,222,152,.9)" font-family="-apple-system,sans-serif" font-size="14" font-weight="700">20 min</text>
+        <!-- Backup bar (short = fast) -->
+        <rect x="16" y="386" width="288" height="7" rx="3.5" fill="rgba(255,255,255,.04)"/>
+        <rect x="16" y="386" width="52" height="7" rx="3.5" fill="rgba(45,222,152,.4)"><animate attributeName="opacity" values=".4;.7;.4" dur="2.2s" repeatCount="indefinite"/></rect>
+        <!-- Integrity row -->
+        <text x="16" y="410" fill="rgba(255,255,255,.25)" font-family="-apple-system,sans-serif" font-size="9">Verificação de integridade</text>
+        <rect x="210" y="399" width="94" height="18" rx="6" fill="rgba(45,222,152,.08)" stroke="rgba(45,222,152,.2)" stroke-width="1"/>
+        <text x="257" y="411" text-anchor="middle" fill="rgba(45,222,152,.8)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">Via Checksum ✓</text>
+        <!-- Freq row -->
+        <text x="16" y="434" fill="rgba(255,255,255,.25)" font-family="-apple-system,sans-serif" font-size="9">Frequência do backup</text>
+        <rect x="202" y="423" width="102" height="18" rx="6" fill="rgba(45,222,152,.08)" stroke="rgba(45,222,152,.2)" stroke-width="1"/>
+        <text x="253" y="435" text-anchor="middle" fill="rgba(45,222,152,.8)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">A cada 5 min ✓</text>
+
+        <!-- ─── BOTTOM SAVINGS BADGE ─── -->
+        <rect x="0" y="464" width="320" height="52" rx="12" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.15)" stroke-width="1"/>
+        <text x="160" y="486" text-anchor="middle" fill="rgba(45,222,152,.45)" font-family="-apple-system,sans-serif" font-size="9" letter-spacing="1.5">ECONOMIA EM LICENÇAS</text>
+        <text x="160" y="508" text-anchor="middle" fill="rgba(45,222,152,.95)" font-family="-apple-system,sans-serif" font-size="22" font-weight="700">R$ 60.000+</text>
+        <!-- animated glow pulse on badge -->
+        <rect x="0" y="464" width="320" height="52" rx="12" fill="none" stroke="rgba(45,222,152,.15)" stroke-width="1"><animate attributeName="stroke-opacity" values=".15;.45;.15" dur="2.5s" repeatCount="indefinite"/></rect>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FUNDAÇÃO (Endrius) ══════ -->
+<section id="fundacao" style="background:var(--bg)">
+  <div style="text-align:center;max-width:min(95vw,700px)">
+    <div class="slabel r">Fundamentação · Endrius</div>
+    <h2 class="h2 r d1">Três tecnologias.<br>Uma infraestrutura.</h2>
+    <p class="lead r d2" style="text-align:center;margin:10px auto 0">Linux como base, Samba para compartilhamento em rede e Rsync para sincronização inteligente — uma infraestrutura completa e sem custo de licença.</p>
+  </div>
+  <div class="fcg">
+    <!-- LINUX -->
+    <div class="fc r d2">
+      <div class="fc-num">01</div>
+      <div class="fc-img">
+        <svg viewBox="0 0 220 72" width="220" height="72">
+          <rect width="220" height="72" rx="7" fill="rgba(0,0,0,.45)" stroke="rgba(255,181,71,.15)" stroke-width="1"/>
+          <rect x="0" y="0" width="220" height="18" rx="7 7 0 0" fill="rgba(255,181,71,.07)"/>
+          <circle cx="11" cy="9" r="3.5" fill="rgba(255,82,82,.4)"/>
+          <circle cx="22" cy="9" r="3.5" fill="rgba(255,181,71,.4)"/>
+          <circle cx="33" cy="9" r="3.5" fill="rgba(45,222,152,.4)"/>
+          <text x="10" y="33" fill="rgba(45,222,152,.7)" font-family="'Courier New',monospace" font-size="9">$ sudo apt-get install samba rsync</text>
+          <text x="10" y="46" fill="rgba(255,181,71,.55)" font-family="'Courier New',monospace" font-size="9">Reading package lists... Done</text>
+          <text x="10" y="59" fill="rgba(45,222,152,.5)" font-family="'Courier New',monospace" font-size="9">Installing 0 upgraded, 2 newly...</text>
+          <rect x="145" y="53" width="6" height="11" rx="1" fill="rgba(45,222,152,.85)"><animate attributeName="opacity" values="1;0;1" dur=".75s" repeatCount="indefinite"/></rect>
+          <!-- scan line -->
+          <rect x="1" y="18" width="218" height="3" fill="rgba(45,222,152,.03)"><animate attributeName="y" values="18;70;18" dur="3.5s" repeatCount="indefinite"/></rect>
+        </svg>
+      </div>
+      <span class="badge ta">Base do Sistema</span>
+      <div class="fc-title">Linux</div>
+      <p class="fc-desc">Sistema operacional open source baseado em Unix. Alta estabilidade, segurança e flexibilidade incomparáveis para servidores corporativos.</p>
+      <ul class="fc-ul">
+        <li>Kernel estável — meses sem reinicialização</li>
+        <li>Alta segurança e controle granular de permissões</li>
+        <li>Open source — zero custo de licença</li>
+        <li>Debian 11 como distribuição da solução</li>
+      </ul>
+    </div>
+    <!-- SAMBA -->
+    <div class="fc r d3">
+      <div class="fc-num">02</div>
+      <div class="fc-img">
+        <svg viewBox="0 0 220 72" width="220" height="72">
+          <!-- Linux server -->
+          <rect x="2" y="14" width="64" height="46" rx="6" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.25)" stroke-width="1"/>
+          <rect x="7" y="20" width="40" height="5" rx="2.5" fill="rgba(45,222,152,.2)"/>
+          <rect x="7" y="29" width="28" height="3" rx="1.5" fill="rgba(45,222,152,.1)"/>
+          <rect x="7" y="35" width="20" height="3" rx="1.5" fill="rgba(45,222,152,.07)"/>
+          <text x="34" y="55" text-anchor="middle" fill="rgba(45,222,152,.4)" font-family="-apple-system,sans-serif" font-size="7">Linux</text>
+          <!-- SMB protocol label -->
+          <rect x="82" y="26" width="56" height="20" rx="5" fill="rgba(45,222,152,.1)" stroke="rgba(45,222,152,.25)" stroke-width="1"/>
+          <text x="110" y="39" text-anchor="middle" fill="rgba(45,222,152,.8)" font-family="-apple-system,sans-serif" font-size="10" font-weight="700">SMB</text>
+          <!-- Animated data packet -->
+          <circle r="3.5" fill="var(--g)" opacity=".8"><animateMotion path="M66,37 L82,37" dur="1.3s" repeatCount="indefinite"/></circle>
+          <circle r="3" fill="rgba(77,168,255,.7)"><animateMotion path="M138,37 L154,37" dur="1.3s" begin=".3s" repeatCount="indefinite"/></circle>
+          <!-- Clients -->
+          <rect x="154" y="8" width="62" height="26" rx="5" fill="rgba(77,168,255,.06)" stroke="rgba(77,168,255,.2)" stroke-width="1"/>
+          <rect x="159" y="13" width="32" height="3" rx="1.5" fill="rgba(77,168,255,.2)"/>
+          <rect x="159" y="19" width="22" height="2" rx="1" fill="rgba(77,168,255,.1)"/>
+          <text x="185" y="29" text-anchor="middle" fill="rgba(77,168,255,.45)" font-family="-apple-system,sans-serif" font-size="7">Windows</text>
+          <rect x="154" y="40" width="62" height="26" rx="5" fill="rgba(255,181,71,.05)" stroke="rgba(255,181,71,.2)" stroke-width="1"/>
+          <rect x="159" y="45" width="32" height="3" rx="1.5" fill="rgba(255,181,71,.15)"/>
+          <rect x="159" y="51" width="22" height="2" rx="1" fill="rgba(255,181,71,.08)"/>
+          <text x="185" y="61" text-anchor="middle" fill="rgba(255,181,71,.45)" font-family="-apple-system,sans-serif" font-size="7">macOS</text>
+          <!-- lines -->
+          <line x1="138" y1="30" x2="154" y2="24" stroke="rgba(77,168,255,.15)" stroke-width="1" stroke-dasharray="3 3"><animate attributeName="stroke-dashoffset" values="12;0" dur="1.5s" repeatCount="indefinite"/></line>
+          <line x1="138" y1="44" x2="154" y2="54" stroke="rgba(255,181,71,.15)" stroke-width="1" stroke-dasharray="3 3"><animate attributeName="stroke-dashoffset" values="12;0" dur="1.5s" repeatCount="indefinite"/></line>
+        </svg>
+      </div>
+      <span class="badge tg">Compartilhamento</span>
+      <div class="fc-title">Samba</div>
+      <p class="fc-desc">Implementação do protocolo SMB/CIFS para Linux — compartilha arquivos com Windows e macOS de forma totalmente transparente para o usuário.</p>
+      <ul class="fc-ul">
+        <li>Protocolo SMB compatível com Windows e macOS</li>
+        <li>Autenticação individual por funcionário</li>
+        <li>Integração com domínios Active Directory</li>
+        <li>Logs de auditoria de todos os acessos</li>
+      </ul>
+    </div>
+    <!-- RSYNC -->
+    <div class="fc r d4">
+      <div class="fc-num">03</div>
+      <div class="fc-img">
+        <svg viewBox="0 0 220 72" width="220" height="72">
+          <defs>
+            <marker id="ra" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(77,168,255,.55)"/></marker>
+            <marker id="rb" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(45,222,152,.55)"/></marker>
+          </defs>
+          <!-- Source -->
+          <rect x="2" y="8" width="68" height="56" rx="6" fill="rgba(45,222,152,.06)" stroke="rgba(45,222,152,.2)" stroke-width="1"/>
+          <rect x="7" y="15" width="48" height="6" rx="3" fill="rgba(45,222,152,.2)"/>
+          <rect x="7" y="25" width="34" height="4" rx="2" fill="rgba(45,222,152,.1)"/>
+          <rect x="7" y="33" width="24" height="4" rx="2" fill="rgba(45,222,152,.07)"/>
+          <rect x="7" y="41" width="42" height="4" rx="2" fill="rgba(45,222,152,.12)"/>
+          <text x="36" y="58" text-anchor="middle" fill="rgba(45,222,152,.35)" font-family="-apple-system,sans-serif" font-size="7">Servidor</text>
+          <!-- Delta label -->
+          <text x="110" y="25" text-anchor="middle" fill="rgba(255,255,255,.18)" font-family="-apple-system,sans-serif" font-size="8">apenas</text>
+          <text x="110" y="38" text-anchor="middle" fill="rgba(255,255,255,.4)" font-family="-apple-system,sans-serif" font-size="12" font-weight="700">Δ diff</text>
+          <text x="110" y="50" text-anchor="middle" fill="rgba(255,255,255,.18)" font-family="-apple-system,sans-serif" font-size="8">é transferido</text>
+          <!-- Arrows -->
+          <path d="M70,28 Q90,18 102,28" stroke="rgba(77,168,255,.4)" stroke-width="1.5" fill="none" marker-end="url(#ra)"><animate attributeName="stroke-dasharray" values="0 60;60 0" dur="2s" repeatCount="indefinite"/></path>
+          <path d="M118,44 Q130,54 148,44" stroke="rgba(45,222,152,.4)" stroke-width="1.5" fill="none" marker-end="url(#rb)"><animate attributeName="stroke-dasharray" values="0 50;50 0" dur="2s" begin=".6s" repeatCount="indefinite"/></path>
+          <!-- Backup -->
+          <rect x="150" y="8" width="68" height="56" rx="6" fill="rgba(77,168,255,.05)" stroke="rgba(77,168,255,.2)" stroke-width="1"/>
+          <rect x="155" y="15" width="48" height="6" rx="3" fill="rgba(77,168,255,.2)"/>
+          <rect x="155" y="25" width="34" height="4" rx="2" fill="rgba(77,168,255,.1)"/>
+          <rect x="155" y="33" width="24" height="4" rx="2" fill="rgba(77,168,255,.07)"/>
+          <rect x="155" y="41" width="42" height="4" rx="2" fill="rgba(77,168,255,.15)"><animate attributeName="opacity" values=".4;1;.4" dur="2.5s" repeatCount="indefinite"/></rect>
+          <text x="184" y="58" text-anchor="middle" fill="rgba(77,168,255,.35)" font-family="-apple-system,sans-serif" font-size="7">Backup</text>
+        </svg>
+      </div>
+      <span class="badge tb">Sincronização</span>
+      <div class="fc-title">Rsync</div>
+      <p class="fc-desc">Ferramenta de sincronização diferencial — transfere apenas o que mudou desde a última cópia, economizando tempo e largura de banda de rede.</p>
+      <ul class="fc-ul">
+        <li>Sincronização diferencial (somente as diferenças)</li>
+        <li>Agendamento automático via Crontab</li>
+        <li>Suporte a SSH, compressão e checksum</li>
+        <li>RPO (Recovery Point Objective) mínimo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ METODOLOGIA (Rafael) ══════ -->
+<section id="metodologia" style="background:var(--bg2)">
+  <div style="text-align:center;margin-bottom:32px">
+    <div class="slabel r">Desenvolvimento · Rafael</div>
+    <h2 class="h2 r d1">Projeto estruturado<br>antes da execução técnica</h2>
+  </div>
+  <div class="mg">
+    <div class="mp r d2">
+      <div class="mp-t">Design Thinking <span class="badge tg" style="font-size:10px;border:1px solid rgba(45,222,152,.25)">Foco no Usuário</span></div>
+      <!-- Flow diagram -->
+      <svg viewBox="0 0 300 38" width="100%" height="38" style="margin-bottom:18px">
+        <rect x="0"   y="7" width="62" height="24" rx="5" fill="rgba(45,222,152,.08)" stroke="rgba(45,222,152,.2)" stroke-width="1"/>
+        <text x="31"  y="22" text-anchor="middle" fill="rgba(45,222,152,.7)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">Empatia</text>
+        <path d="M62,19 L74,19" stroke="rgba(255,255,255,.15)" stroke-width="1" marker-end="url(#mfa)"/>
+        <rect x="74"  y="7" width="62" height="24" rx="5" fill="rgba(77,168,255,.07)" stroke="rgba(77,168,255,.2)" stroke-width="1"/>
+        <text x="105" y="22" text-anchor="middle" fill="rgba(77,168,255,.7)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">Ideação</text>
+        <path d="M136,19 L148,19" stroke="rgba(255,255,255,.15)" stroke-width="1" marker-end="url(#mfa)"/>
+        <rect x="148" y="7" width="62" height="24" rx="5" fill="rgba(255,181,71,.07)" stroke="rgba(255,181,71,.2)" stroke-width="1"/>
+        <text x="179" y="22" text-anchor="middle" fill="rgba(255,181,71,.7)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">Protótipo</text>
+        <path d="M210,19 L222,19" stroke="rgba(255,255,255,.15)" stroke-width="1" marker-end="url(#mfa)"/>
+        <rect x="222" y="7" width="78" height="24" rx="5" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.2)" stroke-width="1"/>
+        <text x="261" y="22" text-anchor="middle" fill="rgba(45,222,152,.7)" font-family="-apple-system,sans-serif" font-size="9" font-weight="600">Aprendizado</text>
+        <defs><marker id="mfa" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(255,255,255,.2)"/></marker></defs>
+      </svg>
+      <div class="dt"><div class="dt-n">1</div><div><div class="dt-h">Empatia</div><div class="dt-p">Entrevistas para entender os fluxos de trabalho de cada setor da instituição.</div></div></div>
+      <div class="dt"><div class="dt-n">2</div><div><div class="dt-h">Ideação</div><div class="dt-p">Planejamento da árvore de diretórios e definição dos níveis de acesso por cargo.</div></div></div>
+      <div class="dt"><div class="dt-n">3</div><div><div class="dt-h">Prototipação</div><div class="dt-p">Criação de Máquinas Virtuais (VMs) para testes de bancada antes da produção.</div></div></div>
+      <div class="dt" style="margin:0"><div class="dt-n">4</div><div><div class="dt-h">Aprendizado</div><div class="dt-p">Ajustes baseados no feedback dos usuários antes da implantação final.</div></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="mp r d3">
+        <div class="mp-t">Gestão Ágil <span class="badge tb" style="font-size:10px;border:1px solid rgba(77,168,255,.25)">Kanban</span></div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:16px">O Kanban coordenou a equipe técnica com os prazos institucionais do projeto.</p>
+        <div class="kb">
+          <div class="kc"><div class="kct">To Do</div><div class="ki">Instalação do Debian 11</div></div>
+          <div class="kc"><div class="kct">Doing</div><div class="ki">Config. Samba por setores</div></div>
+          <div class="kc"><div class="kct">Review</div><div class="ki">Auditoria de permissões</div></div>
+          <div class="kc"><div class="kct">Done</div><div class="ki done">Servidor 100% operacional</div></div>
+        </div>
+      </div>
+      <div class="mp r d4" style="background:var(--bd);border-color:rgba(77,168,255,.15)">
+        <!-- Crontab code box -->
+        <svg viewBox="0 0 260 38" width="100%" height="38" style="margin-bottom:14px">
+          <rect x="0" y="0" width="260" height="38" rx="7" fill="rgba(0,0,0,.35)" stroke="rgba(77,168,255,.15)" stroke-width="1"/>
+          <text x="10" y="16" fill="rgba(77,168,255,.5)" font-family="'Courier New',monospace" font-size="9">$ crontab -e</text>
+          <text x="10" y="30" fill="rgba(45,222,152,.75)" font-family="'Courier New',monospace" font-size="9">*/5 * * * * rsync -avz /data/ backup:/</text>
+          <rect x="234" y="22" width="5" height="11" rx="1" fill="rgba(45,222,152,.85)"><animate attributeName="opacity" values="1;0;1" dur=".75s" repeatCount="indefinite"/></rect>
+        </svg>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em">Ciclo de Sincronização · Rsync</div>
+        <div style="font-size:22px;font-weight:700;color:var(--b);letter-spacing:-.02em">A cada 5 minutos</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">Agendado via Crontab — RPO (Recovery Point Objective) mínimo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ INFRAESTRUTURA (Rafael) ══════ -->
+<section id="infraestrutura" style="background:var(--bg)">
+  <div style="text-align:center">
+    <div class="slabel r">Infraestrutura de Hardware · Rafael</div>
+    <h2 class="h2 r d1">Transformando máquinas existentes<br>em servidores profissionais</h2>
+  </div>
+  <div class="ig">
+    <div class="ic p r d2">
+      <div class="ic-h">
+        <div><div class="ic-t">Servidor de Arquivos</div><div class="ic-s">Nó Principal · 100 funcionários/dia</div></div>
+        <span class="badge tg" style="font-size:10px;border:1px solid rgba(45,222,152,.25)">Primário</span>
+      </div>
+      <!-- Server rack illustration -->
+      <svg viewBox="0 0 260 64" width="100%" height="64" style="margin-bottom:18px">
+        <rect x="0" y="0" width="260" height="64" rx="7" fill="rgba(0,0,0,.35)" stroke="rgba(45,222,152,.12)" stroke-width="1"/>
+        <rect x="3" y="5" width="254" height="14" rx="3.5" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.15)" stroke-width="1"/>
+        <circle cx="12" cy="12" r="3.5" fill="rgba(45,222,152,.85)"><animate attributeName="opacity" values="1;.25;1" dur="1.4s" repeatCount="indefinite"/></circle>
+        <rect x="20" y="9" width="90" height="4" rx="2" fill="rgba(45,222,152,.2)"/>
+        <text x="230" y="14" text-anchor="end" fill="rgba(45,222,152,.4)" font-family="-apple-system,sans-serif" font-size="8">Core i7-6700</text>
+        <rect x="3" y="23" width="254" height="12" rx="3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <rect x="7" y="27" width="70" height="3" rx="1.5" fill="rgba(255,255,255,.1)"/>
+        <text x="253" y="31" text-anchor="end" fill="rgba(255,255,255,.2)" font-family="-apple-system,sans-serif" font-size="7.5">8GB RAM</text>
+        <rect x="3" y="38" width="254" height="12" rx="3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <rect x="7" y="42" width="70" height="3" rx="1.5" fill="rgba(255,255,255,.1)"/>
+        <text x="253" y="46" text-anchor="end" fill="rgba(255,255,255,.2)" font-family="-apple-system,sans-serif" font-size="7.5">2×8TB Seagate Exos</text>
+        <rect x="3" y="53" width="254" height="8" rx="0 0 5 5" fill="rgba(255,255,255,.02)"/>
+        <rect x="200" y="38" width="20" height="12" rx="2" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.15)" stroke-width="1"/>
+        <rect x="222" y="38" width="20" height="12" rx="2" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.15)" stroke-width="1"/>
+        <rect x="202" y="41" width="8" height="6" rx="1" fill="rgba(45,222,152,.15)"/>
+        <rect x="224" y="41" width="8" height="6" rx="1" fill="rgba(45,222,152,.15)"/>
+      </svg>
+      <div class="sl">
+        <div class="si"><span class="sil">Processador</span><span class="siv accent">Core i7-6700</span></div>
+        <div class="si"><span class="sil">Memória RAM</span><span class="siv">8 GB (Estabilidade)</span></div>
+        <div class="si"><span class="sil">Armazenamento</span><span class="siv">2× 8TB Seagate Exos</span></div>
+        <div class="si"><span class="sil">Rede</span><span class="siv">Gigabit Ethernet 10/100/1000</span></div>
+        <div class="si"><span class="sil">Sistema</span><span class="siv accent">Debian 11 + Samba</span></div>
+      </div>
+    </div>
+    <div class="ic b r d3">
+      <div class="ic-h">
+        <div><div class="ic-t">Servidor de Backup</div><div class="ic-s">Redundância · Local físico isolado</div></div>
+        <span class="badge tb" style="font-size:10px;border:1px solid rgba(77,168,255,.25)">Backup</span>
+      </div>
+      <svg viewBox="0 0 260 64" width="100%" height="64" style="margin-bottom:18px">
+        <rect x="0" y="0" width="260" height="64" rx="7" fill="rgba(0,0,0,.35)" stroke="rgba(77,168,255,.12)" stroke-width="1"/>
+        <rect x="3" y="5" width="254" height="14" rx="3.5" fill="rgba(77,168,255,.06)" stroke="rgba(77,168,255,.15)" stroke-width="1"/>
+        <circle cx="12" cy="12" r="3.5" fill="rgba(77,168,255,.85)"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>
+        <rect x="20" y="9" width="90" height="4" rx="2" fill="rgba(77,168,255,.2)"/>
+        <text x="230" y="14" text-anchor="end" fill="rgba(77,168,255,.4)" font-family="-apple-system,sans-serif" font-size="8">Core i5-9400</text>
+        <rect x="3" y="23" width="254" height="12" rx="3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <rect x="7" y="27" width="70" height="3" rx="1.5" fill="rgba(255,255,255,.1)"/>
+        <text x="253" y="31" text-anchor="end" fill="rgba(255,255,255,.2)" font-family="-apple-system,sans-serif" font-size="7.5">8GB RAM</text>
+        <rect x="3" y="38" width="254" height="12" rx="3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <rect x="7" y="42" width="70" height="3" rx="1.5" fill="rgba(255,255,255,.1)"/>
+        <text x="253" y="46" text-anchor="end" fill="rgba(255,255,255,.2)" font-family="-apple-system,sans-serif" font-size="7.5">8TB réplica dedicada</text>
+        <!-- sync indicator -->
+        <rect x="180" y="23" width="74" height="12" rx="3" fill="rgba(45,222,152,.05)" stroke="rgba(45,222,152,.15)" stroke-width="1"/>
+        <text x="217" y="31" text-anchor="middle" fill="rgba(45,222,152,.65)" font-family="-apple-system,sans-serif" font-size="7.5">rsync incremental ↓</text>
+        <rect x="3" y="53" width="254" height="8" rx="0 0 5 5" fill="rgba(255,255,255,.02)"/>
+      </svg>
+      <div class="sl">
+        <div class="si"><span class="sil">Processador</span><span class="siv blue">Core i5-9400</span></div>
+        <div class="si"><span class="sil">Memória RAM</span><span class="siv">8 GB</span></div>
+        <div class="si"><span class="sil">Armazenamento</span><span class="siv">8TB dedicado para réplicas</span></div>
+        <div class="si"><span class="sil">Backup</span><span class="siv blue">Incremental via Rsync</span></div>
+        <div class="si"><span class="sil">Localização</span><span class="siv">Isolado fisicamente do principal</span></div>
+      </div>
+    </div>
+    <div class="raid r d4">
+      <!-- RAID 1 mirror illustration -->
+      <svg viewBox="0 0 86 60" width="86" height="60" style="flex-shrink:0">
+        <defs>
+          <marker id="mr1" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(45,222,152,.6)"/></marker>
+          <marker id="mr2" markerWidth="5" markerHeight="5" refX="1" refY="2.5" orient="auto"><path d="M5,0 L0,2.5 L5,5 Z" fill="rgba(45,222,152,.4)"/></marker>
+        </defs>
+        <rect x="0" y="0" width="36" height="60" rx="5" fill="rgba(45,222,152,.08)" stroke="rgba(45,222,152,.3)" stroke-width="1.5"/>
+        <rect x="50" y="0" width="36" height="60" rx="5" fill="rgba(45,222,152,.08)" stroke="rgba(45,222,152,.3)" stroke-width="1.5"/>
+        <rect x="3" y="8" width="30" height="4" rx="2" fill="rgba(45,222,152,.2)"/>
+        <rect x="3" y="16" width="22" height="3" rx="1.5" fill="rgba(45,222,152,.12)"/>
+        <rect x="3" y="23" width="26" height="3" rx="1.5" fill="rgba(45,222,152,.09)"/>
+        <rect x="3" y="30" width="18" height="3" rx="1.5" fill="rgba(45,222,152,.07)"/>
+        <rect x="53" y="8" width="30" height="4" rx="2" fill="rgba(45,222,152,.2)"/>
+        <rect x="53" y="16" width="22" height="3" rx="1.5" fill="rgba(45,222,152,.12)"/>
+        <rect x="53" y="23" width="26" height="3" rx="1.5" fill="rgba(45,222,152,.09)"/>
+        <rect x="53" y="30" width="18" height="3" rx="1.5" fill="rgba(45,222,152,.07)"/>
+        <path d="M36,22 L50,22" stroke="rgba(45,222,152,.55)" stroke-width="1.5" marker-end="url(#mr1)"/>
+        <path d="M50,30 L36,30" stroke="rgba(45,222,152,.35)" stroke-width="1" marker-end="url(#mr2)"/>
+        <text x="43" y="54" text-anchor="middle" fill="rgba(45,222,152,.4)" font-family="-apple-system,sans-serif" font-size="7">RAID 1</text>
+      </svg>
+      <div class="raid-t">RAID 1</div>
+      <div style="display:flex;gap:28px;flex-wrap:wrap">
+        <div class="rf"><div class="rft">Espelhamento</div><div class="rfd">Dados escritos nos dois discos ao mesmo tempo</div></div>
+        <div class="rf"><div class="rft">Continuidade</div><div class="rfd">Se um HD falhar, o sistema segue no outro</div></div>
+        <div class="rf"><div class="rft">Zero Perda</div><div class="rfd">Sincronização em tempo real a nível de hardware</div></div>
+        <div class="rf"><div class="rft">LGPD</div><div class="rfd">Proteção essencial para dados institucionais</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ SEGURANÇA ══════ -->
+<section id="seguranca" style="background:var(--bg2)">
+  <div class="split rev" style="max-width:min(95vw,1380px)">
+    <div>
+      <div class="slabel rr">Segurança & Conformidade</div>
+      <h2 class="h2 rr d1">Samba: gestão<br>de acesso<br>e LGPD</h2>
+      <p class="lead rr d2" style="margin:16px 0 0">Cada funcionalidade do Samba foi configurada para garantir rastreabilidade total e conformidade com a Lei Geral de Proteção de Dados.</p>
+      <!-- LGPD illustration -->
+      <div class="rr d3" style="margin-top:28px">
+        <svg viewBox="0 0 260 90" width="260" height="90" style="max-width:100%">
+          <rect x="0" y="0" width="260" height="90" rx="10" fill="rgba(45,222,152,.05)" stroke="rgba(45,222,152,.15)" stroke-width="1"/>
+          <!-- Shield -->
+          <path d="M22,15 L38,15 L38,38 Q38,46 30,50 Q22,46 22,38 Z" fill="rgba(45,222,152,.1)" stroke="rgba(45,222,152,.4)" stroke-width="1.5"/>
+          <path d="M26,30 L29,33 L35,27" stroke="var(--g)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="50" y="28" fill="rgba(255,255,255,.75)" font-family="-apple-system,sans-serif" font-size="11" font-weight="600">Conformidade LGPD</text>
+          <text x="50" y="42" fill="rgba(255,255,255,.35)" font-family="-apple-system,sans-serif" font-size="9">Gestão de permissões granular por cargo e setor</text>
+          <!-- divider -->
+          <line x1="10" y1="58" x2="250" y2="58" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+          <!-- Uptime -->
+          <circle cx="22" cy="74" r="6" fill="rgba(45,222,152,.1)" stroke="rgba(45,222,152,.4)" stroke-width="1.5"/>
+          <circle cx="22" cy="74" r="2.5" fill="var(--g)"><animate attributeName="opacity" values="1;.2;1" dur="2s" repeatCount="indefinite"/></circle>
+          <text x="34" y="71" fill="rgba(255,255,255,.75)" font-family="-apple-system,sans-serif" font-size="10" font-weight="600">Uptime: meses sem reboot</text>
+          <text x="34" y="83" fill="rgba(255,255,255,.35)" font-family="-apple-system,sans-serif" font-size="9">Estabilidade garantida pelo Kernel Linux</text>
+        </svg>
+      </div>
+    </div>
+    <div>
+      <div class="scg" style="margin:0">
+        <div class="sc rr d2"><div class="sico" style="background:var(--gd)">🔐</div><div><h3>Autenticação Individual</h3><p>Contas separadas por funcionário — cada acesso identificado e registrado no sistema.</p><span class="sbadge">Rastreabilidade total</span></div></div>
+        <div class="sc rr d3"><div class="sico" style="background:var(--bd)">📁</div><div><h3>Hierarquia por Setor</h3><p>Pastas separadas (RH, TI, Financeiro) com permissões granulares de acesso por cargo.</p><span class="sbadge">Conformidade LGPD</span></div></div>
+        <div class="sc rr d4"><div class="sico" style="background:var(--ad)">🔗</div><div><h3>Interoperabilidade</h3><p>Protocolo SMB compatível com Windows e macOS — transparente para o usuário final.</p><span class="sbadge">Transparência ao usuário</span></div></div>
+        <div class="sc rr d5"><div class="sico" style="background:rgba(255,82,82,.08)">📋</div><div><h3>Auditoria Completa</h3><p>Logs de acesso para monitorar modificações e tentativas de acesso no servidor.</p><span class="sbadge">Segurança da informação</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ RESULTADOS (Paulo Arthur) ══════ -->
+<section id="resultados">
+  <div class="resbg"></div>
+  <div class="rc">
+    <div class="slabel r">Parte 04 · Resultados e Exemplos Práticos · Paulo Arthur</div>
+    <h2 class="h2 r d1">Estudo de Caso e<br>Ganhos de Performance</h2>
+    <p class="lead r d2" style="text-align:center;margin:10px auto 0">
+      Aplicação real em uma Instituição Pública para validar a solução proposta.
+    </p>
+
+    <div class="paulo-compact-grid">
+      <div class="paulo-card r d3">
+        <div class="paulo-title">Estudo de Caso: Instituição X</div>
+        <h3 style="font-size:26px;letter-spacing:-.04em">Cenário analisado</h3>
+        <div class="paulo-case-mini">
+          <div class="mini-item">
+            <b>Ambiente</b>
+            <span>Rede com aproximadamente <strong>80 terminais ativos</strong>.</span>
+          </div>
+          <div class="mini-item">
+            <b>Cenário prévio</b>
+            <span>Uso de <strong>HDs externos USB 2.0</strong> — gargalo crítico.</span>
+          </div>
+          <div class="mini-item">
+            <b>Solução</b>
+            <span><strong>Servidor Debian 11 + Samba + Backup Automatizado RSync.</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="paulo-card r d4">
+        <div class="paulo-title">Ganhos de Performance</div>
+        <h3 style="font-size:26px;letter-spacing:-.04em">Taxa de transferência</h3>
+
+        <div class="paulo-speed-compact">
+          <div class="speed-mini old">
+            <small>USB 2.0</small>
+            <strong>30</strong>
+            <span>MB/s</span>
+          </div>
+          <div class="speed-mini new">
+            <small>Samba/Linux</small>
+            <strong>120</strong>
+            <span>MB/s</span>
+          </div>
+        </div>
+
+        <div class="impact-mini">
+          <strong>400%</strong>
+          <span>ganho na taxa de transferência de ficheiros</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="paulo-backup-vantagens" style="background:var(--bg)">
+  <div class="rc">
+    <div class="slabel r">Eficiência do Backup e Vantagens · Paulo Arthur</div>
+    <h2 class="h2 r d1">Backup automatizado<br>e uso real</h2>
+
+    <div class="paulo-bottom-grid">
+      <div class="backup-table compact r d2">
+        <div class="bt-head">
+          <div>Critério</div>
+          <div>Método Antigo (Manual)</div>
+          <div>Solução Proposta</div>
+        </div>
+        <div class="bt-row">
+          <div>Tempo de Execução</div>
+          <div>~100 a 120 minutos</div>
+          <div>~20 minutos</div>
+        </div>
+        <div class="bt-row">
+          <div>Frequência</div>
+          <div>Inconsistente</div>
+          <div>Agendado (Automático)</div>
+        </div>
+        <div class="bt-row">
+          <div>Integridade</div>
+          <div>Risco de falha humana</div>
+          <div>Verificação via Checksum</div>
+        </div>
+      </div>
+
+      <div class="advantages compact r d3">
+        <div class="adv">
+          <h4>Conformidade LGPD</h4>
+          <p>Gestão de permissões granular.</p>
+        </div>
+        <div class="adv">
+          <h4>Uptime</h4>
+          <p>Kernel Linux estável, com meses sem reboot.</p>
+        </div>
+        <div class="adv">
+          <h4>Viabilidade Econômica</h4>
+          <p>Economia superior a R$ 60.000,00 em licenças.</p>
+        </div>
+        <div class="adv">
+          <h4>Escalabilidade</h4>
+          <p>Múltiplos acessos sem perda de performance.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="paulo-final compact r d4">
+      “A prática prova que o Software Livre é a solução mais robusta e econômica para a gestão de dados moderna.”
+    </div>
+  </div>
+</section>
+
+<section id="conclusao">
+  <div class="corb"></div>
+  <div class="cc">
+    <div class="slabel r">Conclusão</div>
+    <!-- Orbiting success illustration -->
+    <div class="rs d1" style="margin:14px auto 28px">
+      <svg viewBox="0 0 200 130" width="200" height="130">
+        <ellipse cx="100" cy="65" rx="94" ry="32" fill="none" stroke="rgba(45,222,152,.05)" stroke-width="1"/>
+        <ellipse cx="100" cy="65" rx="70" ry="24" fill="none" stroke="rgba(45,222,152,.07)" stroke-width="1"/>
+        <ellipse cx="100" cy="65" rx="48" ry="16" fill="none" stroke="rgba(45,222,152,.1)" stroke-width="1"/>
+        <circle cx="100" cy="65" r="28" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.3)" stroke-width="1.5"/>
+        <polyline points="88,65 96,73 114,55" stroke="var(--g)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <animate attributeName="stroke-dasharray" values="0 60;60 0" dur="1s" fill="freeze" begin=".3s"/>
+        </polyline>
+        <circle r="5" fill="var(--g)"><animateMotion path="M100,65 m94,0 a94,32 0 1,0 -188,0 a94,32 0 1,0 188,0" dur="7s" repeatCount="indefinite"/></circle>
+        <circle r="4" fill="var(--b)"><animateMotion path="M100,65 m70,0 a70,24 0 1,1 -140,0 a70,24 0 1,1 140,0" dur="5s" repeatCount="indefinite"/></circle>
+        <circle r="3" fill="var(--a)"><animateMotion path="M100,65 m48,0 a48,16 0 1,0 -96,0 a48,16 0 1,0 96,0" dur="3.5s" repeatCount="indefinite"/></circle>
+      </svg>
+    </div>
+    <div class="cq r d2">Software livre como solução estratégica para a gestão de dados moderna.</div>
+    <div class="cpills r d3">
+      <span class="cp g">✓ 400% mais velocidade</span>
+      <span class="cp g">✓ 83% menos tempo de backup</span>
+      <span class="cp g">✓ R$ 60.000+ economizados</span>
+      <span class="cp">Conformidade LGPD</span>
+      <span class="cp">Meses sem reboot</span>
+      <span class="cp">RAID 1 · Zero perda</span>
+      <span class="cp">80 terminais simultâneos</span>
+    </div>
+    <p class="lead r d4" style="text-align:center;margin:0 auto 40px">A implementação real validou que Linux + Samba + Rsync entrega performance, segurança e conformidade legal sem os custos de soluções proprietárias.</p>
+    <div class="authors r d5">
+      <div class="author"><div class="ava" style="background:var(--g)">E</div><div><div class="aname">Endrius</div><div class="arole">Fundamentação Teórica</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--b)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento Técnico</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--a)">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Análise de Resultados</div></div></div>
+    </div>
+  </div>
+</section>
 
 <script>
-// SCROLL
-const cards = document.querySelectorAll('.card');
-
-window.addEventListener('scroll', () => {
-    cards.forEach(card => {
-        const top = card.getBoundingClientRect().top;
-        if(top < window.innerHeight - 100){
-            card.classList.add('show');
-        }
-    });
-});
-
-// ANIMAÇÃO TOP
-const textos = [
-    "Desenvolvedor Front-end",
-    "Desenvolvedor Back-end",
-    "Desenvolvedor Web em formação",
-    "Futuro Full Stack"
-];
-
-const el = document.querySelector(".typing");
-
-let i = 0;
-let j = 0;
-let apagando = false;
-
-function animar() {
-    let atual = textos[i];
-
-    if (!apagando) {
-        el.textContent = atual.substring(0, j++);
-        if (j > atual.length) {
-            apagando = true;
-            setTimeout(animar, 1200);
-            return;
-        }
-    } else {
-        el.textContent = atual.substring(0, j--);
-        if (j === 0) {
-            apagando = false;
-            i = (i + 1) % textos.length;
-        }
+const SEC=['hero','problema','fundacao','metodologia','infraestrutura','seguranca','resultados','conclusao'];
+const SELS=SEC.map(id=>document.getElementById(id));
+const pgbar=document.getElementById('pgbar');
+const dotsEl=document.getElementById('dots');
+SEC.forEach((id,i)=>{const d=document.createElement('div');d.className='dot';d.title=id;d.onclick=()=>SELS[i].scrollIntoView({behavior:'smooth'});dotsEl.appendChild(d);});
+const allDots=dotsEl.querySelectorAll('.dot');
+const heroIllus=document.getElementById('hero-illus');
+const heroEl=document.getElementById('hero');
+function onScroll(){
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  pgbar.style.width=Math.min(100,(st/dh)*100)+'%';
+  let a=0;SELS.forEach((s,i)=>{if(s.getBoundingClientRect().top<=window.innerHeight/2)a=i;});
+  allDots.forEach((d,i)=>d.classList.toggle('on',i===a));
+  // Parallax hero illustration — slides up and fades as user scrolls
+  if(heroIllus&&heroEl){
+    const heroH=heroEl.offsetHeight;
+    if(st<heroH){
+      const pct=st/heroH;
+      heroIllus.style.transform=`translateY(${-st*0.5}px)`;
+      heroIllus.style.opacity=Math.max(0,1-pct*2.2);
     }
-
-    setTimeout(animar, apagando ? 30 : 50);
+  }
 }
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
-animar();
+const revEls=document.querySelectorAll('.r,.rl,.rr,.rs');
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');}),{threshold:.1});
+revEls.forEach(el=>obs.observe(el));
+
+function cnt(el,target,suffix,ms){
+  const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/ms,1),e=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(e*target)+suffix;
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function cntMoney(el,target,ms){
+  const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/ms,1),e=1-Math.pow(1-p,3),v=Math.floor(e*target);
+    el.textContent='R$ '+v.toLocaleString('pt-BR');
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+let started=false;
+new IntersectionObserver(e=>{
+  if(e[0].isIntersecting&&!started){
+    started=true;
+    setTimeout(()=>cnt(document.getElementById('cs'),120,' MB/s',1600),200);
+    setTimeout(()=>cnt(document.getElementById('cg'),400,'%',2000),400);
+    setTimeout(()=>cnt(document.getElementById('cb'),20,' min',1300),600);
+    setTimeout(()=>cntMoney(document.getElementById('ce'),60000,2000),800);
+  }
+},{threshold:.2}).observe(document.getElementById('resultados'));
+
+document.querySelectorAll('.bcard').forEach(card=>{
+  new IntersectionObserver(e=>{
+    if(e[0].isIntersecting){card.querySelectorAll('.bf').forEach(f=>{f.style.width=f.dataset.w+'%';});}
+  },{threshold:.3}).observe(card);
+});
+</script>
+
+<script>
+(function(){
+  const bar = document.querySelector('#paulo-backup-vantagens .advantages.compact');
+  if(!bar) return;
+  bar.addEventListener('mousemove', function(e){
+    const r = bar.getBoundingClientRect();
+    bar.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+    bar.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+  });
+  bar.addEventListener('mouseleave', function(){
+    bar.style.setProperty('--mx', '50%');
+    bar.style.setProperty('--my', '50%');
+  });
+})();
 </script>
 
 </body>
