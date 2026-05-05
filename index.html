@@ -1760,6 +1760,229 @@ section{padding-top:72px;padding-bottom:72px}
   .conclusion-lead{margin-top:34px}
 }
 
+
+
+/* ===== AJUSTE FINAL: CONCLUSÃO CABE EM 1 TELA ===== */
+#conclusao{
+  padding-top:28px !important;
+  padding-bottom:24px !important;
+  align-items:center !important;
+}
+#conclusao .cc{
+  transform:translateY(-6px);
+}
+#conclusao .slabel{
+  margin-bottom:8px !important;
+  font-size:11px !important;
+}
+#conclusao .conclusion-icon{
+  width:210px !important;
+  height:78px !important;
+  margin:0 auto 24px !important;
+}
+#conclusao .orbit.o1{width:210px !important;height:68px !important;}
+#conclusao .orbit.o2{width:156px !important;height:50px !important;}
+#conclusao .orbit.o3{width:110px !important;height:36px !important;}
+#conclusao .check-core{
+  width:58px !important;
+  height:58px !important;
+}
+#conclusao .check-core svg{
+  width:30px !important;
+  height:30px !important;
+}
+#conclusao .dot-orbit{
+  width:9px !important;
+  height:9px !important;
+}
+#conclusao .dot-orbit.g{left:36px !important;top:18px !important;}
+#conclusao .dot-orbit.b{right:36px !important;top:34px !important;}
+#conclusao .dot-orbit.a{right:86px !important;bottom:22px !important;}
+#conclusao .conclusao-title-impact{
+  font-size:clamp(34px,4.15vw,58px) !important;
+  line-height:1.04 !important;
+  max-width:900px !important;
+  letter-spacing:-.052em !important;
+}
+#conclusao .metric-pills{
+  margin:26px auto 0 !important;
+  gap:9px !important;
+}
+#conclusao .metric-pill{
+  padding:9px 16px !important;
+  font-size:13px !important;
+}
+#conclusao .conclusion-lead{
+  margin:26px auto 0 !important;
+  font-size:clamp(14px,1.25vw,18px) !important;
+  line-height:1.5 !important;
+  max-width:760px !important;
+}
+#conclusao .authors{
+  margin-top:28px !important;
+  gap:10px !important;
+}
+#conclusao .author{
+  padding:9px 14px !important;
+  min-width:166px !important;
+}
+#conclusao .ava{
+  width:30px !important;
+  height:30px !important;
+  font-size:12px !important;
+}
+#conclusao .aname{font-size:13px !important;}
+#conclusao .arole{font-size:10px !important;}
+@media(max-height:760px){
+  #conclusao .conclusion-icon{margin-bottom:18px !important;}
+  #conclusao .conclusao-title-impact{font-size:clamp(30px,3.8vw,52px) !important;}
+  #conclusao .metric-pills{margin-top:20px !important;}
+  #conclusao .conclusion-lead{margin-top:20px !important;}
+  #conclusao .authors{margin-top:22px !important;}
+}
+
+
+
+/* ===== AJUSTE SOLICITADO: INTEGRANTES NA LATERAL DIREITA ===== */
+#conclusao{
+  padding:28px 0 24px !important;
+  display:flex !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+  overflow:hidden !important;
+}
+
+#conclusao .cc{
+  max-width:none !important;
+  width:80% !important;
+  margin:0 !important;
+  padding:0 4vw 0 5vw !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:center !important;
+  text-align:center !important;
+  transform:translateY(-4px) !important;
+}
+
+#conclusao .conclusao-title-impact{
+  font-size:clamp(32px,4vw,56px) !important;
+  line-height:1.04 !important;
+  max-width:850px !important;
+}
+
+#conclusao .conclusion-icon{
+  margin-bottom:24px !important;
+}
+
+#conclusao .metric-pills{
+  margin-top:26px !important;
+}
+
+#conclusao .conclusion-lead{
+  margin-top:26px !important;
+  max-width:760px !important;
+}
+
+.member-sidebar{
+  position:absolute;
+  right:0;
+  top:0;
+  width:20vw;
+  min-width:260px;
+  height:100%;
+  z-index:3;
+  border-left:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+  backdrop-filter:blur(18px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:34px 22px;
+  gap:12px;
+  box-shadow:-32px 0 90px rgba(0,0,0,.22);
+}
+
+.member-sidebar::before{
+  content:"Integrantes";
+  color:var(--g);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  text-align:center;
+}
+
+.member-sidebar .author{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+  padding:13px 14px !important;
+  border:1px solid var(--br) !important;
+  border-radius:18px !important;
+  background:rgba(255,255,255,.04) !important;
+  backdrop-filter:blur(14px) !important;
+  width:100% !important;
+  min-width:0 !important;
+  text-align:left !important;
+  transition:transform .22s ease,border-color .22s ease,background .22s ease !important;
+}
+
+.member-sidebar .author:hover{
+  transform:translateX(-5px) !important;
+  border-color:rgba(45,222,152,.24) !important;
+  background:rgba(45,222,152,.055) !important;
+}
+
+.member-sidebar .ava{
+  width:32px !important;
+  height:32px !important;
+  font-size:12px !important;
+  flex-shrink:0 !important;
+}
+
+.member-sidebar .aname{
+  font-size:13px !important;
+}
+
+.member-sidebar .arole{
+  font-size:10px !important;
+  line-height:1.25 !important;
+  white-space:normal !important;
+}
+
+@media(max-height:760px){
+  .member-sidebar{gap:9px !important;padding-top:24px !important;padding-bottom:24px !important;}
+  .member-sidebar .author{padding:10px 12px !important;}
+  #conclusao .conclusao-title-impact{font-size:clamp(30px,3.65vw,50px) !important;}
+}
+
+@media(max-width:900px){
+  #conclusao{
+    display:block !important;
+    padding:42px 18px !important;
+    overflow:visible !important;
+  }
+  #conclusao .cc{
+    width:100% !important;
+    padding:0 !important;
+    transform:none !important;
+  }
+  .member-sidebar{
+    position:relative !important;
+    width:100% !important;
+    min-width:0 !important;
+    height:auto !important;
+    margin:30px auto 0 !important;
+    border-left:0 !important;
+    border-top:1px solid rgba(255,255,255,.08) !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    box-shadow:none !important;
+  }
+  .member-sidebar::before{grid-column:1/-1 !important;}
+}
+
 </style>
 </head>
 <body>
@@ -2412,7 +2635,7 @@ section{padding-top:72px;padding-bottom:72px}
 <section id="conclusao">
   <span class="final-particle p1"></span><span class="final-particle p2"></span><span class="final-particle p3"></span><span class="final-particle p4"></span>
 
-  <div class="cc" style="max-width:1180px">
+  <div class="cc">
     <div class="slabel r">Conclusão</div>
 
     <div class="conclusion-icon r d1">
@@ -2444,15 +2667,15 @@ section{padding-top:72px;padding-bottom:72px}
       A implementação real validou que Linux + Samba + Rsync entrega performance,
       segurança e conformidade legal sem os custos de soluções proprietárias.
     </p>
-
-    <div class="authors r d5">
-      <div class="author"><div class="ava" style="background:var(--g)">V</div><div><div class="aname">Victor</div><div class="arole">Introdução, objetivo e conclusão</div></div></div>
-      <div class="author"><div class="ava" style="background:var(--b)">E</div><div><div class="aname">Endrius</div><div class="arole">Conceitos principais</div></div></div>
-      <div class="author"><div class="ava" style="background:var(--a)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento prático</div></div></div>
-      <div class="author"><div class="ava" style="background:#9b8cff;color:#fff">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Resultados e exemplos</div></div></div>
-      <div class="author"><div class="ava" style="background:#f0f0f0;color:#000">M</div><div><div class="aname">Matheus</div><div class="arole">Análise crítica e limitações</div></div></div>
-    </div>
   </div>
+
+  <aside class="member-sidebar r d5">
+    <div class="author"><div class="ava" style="background:var(--g)">V</div><div><div class="aname">Victor</div><div class="arole">Introdução, objetivo e conclusão</div></div></div>
+    <div class="author"><div class="ava" style="background:var(--b)">E</div><div><div class="aname">Endrius</div><div class="arole">Conceitos principais</div></div></div>
+    <div class="author"><div class="ava" style="background:var(--a)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento prático</div></div></div>
+    <div class="author"><div class="ava" style="background:#9b8cff;color:#fff">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Resultados e exemplos</div></div></div>
+    <div class="author"><div class="ava" style="background:#f0f0f0;color:#000">M</div><div><div class="aname">Matheus</div><div class="arole">Análise crítica e limitações</div></div></div>
+  </aside>
 </section>
 
 <script>
