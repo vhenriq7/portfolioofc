@@ -1487,6 +1487,279 @@ section{padding-top:72px;padding-bottom:72px}
   }
 }
 
+
+
+
+/* ===== PARTE 05/06 — ANÁLISE CRÍTICA, LIMITAÇÕES E CONCLUSÃO ===== */
+#analise-critica,#conclusao{
+  background:#050505 !important;
+  text-align:center;
+  perspective:1200px;
+}
+#analise-critica::before,#conclusao::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at var(--mx,22%) var(--my,34%), rgba(45,222,152,.105), transparent 34%),
+    radial-gradient(circle at 82% 62%, rgba(77,168,255,.035), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,.025), transparent 38%);
+  pointer-events:none;
+  transition:background .2s ease;
+}
+#analise-critica::after,#conclusao::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(circle at center, black 0%, transparent 76%);
+  opacity:.55;
+  pointer-events:none;
+  animation:gridDriftFinal 18s linear infinite;
+}
+@keyframes gridDriftFinal{
+  from{background-position:0 0,0 0}
+  to{background-position:56px 56px,56px 56px}
+}
+#analise-critica .cc,#conclusao .cc{position:relative;z-index:2}
+
+.final-particle{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:rgba(45,222,152,.55);
+  box-shadow:0 0 18px rgba(45,222,152,.55);
+  opacity:.36;
+  animation:floatParticleFinal 7s ease-in-out infinite;
+  pointer-events:none;
+  z-index:1;
+}
+.final-particle.p1{left:12%;top:28%;animation-delay:.2s}
+.final-particle.p2{right:15%;top:32%;animation-delay:1s;background:rgba(77,168,255,.48);box-shadow:0 0 18px rgba(77,168,255,.42)}
+.final-particle.p3{left:22%;bottom:23%;animation-delay:1.6s}
+.final-particle.p4{right:24%;bottom:20%;animation-delay:2.2s;background:rgba(255,181,71,.45);box-shadow:0 0 18px rgba(255,181,71,.36)}
+@keyframes floatParticleFinal{
+  0%,100%{transform:translate3d(0,0,0) scale(.8)}
+  50%{transform:translate3d(18px,-24px,0) scale(1.15)}
+}
+
+#analise-critica .h2{
+  font-size:clamp(38px,5.3vw,72px) !important;
+  line-height:1 !important;
+  letter-spacing:-.052em !important;
+  max-width:860px;
+  margin:0 auto;
+}
+#analise-critica .lead{
+  color:#a0a0a0;
+  font-size:clamp(15px,1.25vw,18px);
+  max-width:760px;
+  margin:22px auto 0 !important;
+  line-height:1.7;
+}
+.matheus-grid{
+  width:min(980px,94vw);
+  margin:44px auto 0;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  transform-style:preserve-3d;
+}
+.matheus-card{
+  min-height:170px;
+  position:relative;
+  text-align:left;
+  padding:28px;
+  border-radius:26px;
+  border:1px solid rgba(255,255,255,.095);
+  background:
+    radial-gradient(circle at var(--cx,18%) var(--cy,18%), rgba(45,222,152,.105), transparent 45%),
+    linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
+  box-shadow:0 28px 90px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08);
+  overflow:hidden;
+  transition:transform .22s ease,border-color .28s ease,background .28s ease,box-shadow .28s ease;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.matheus-card:hover{
+  border-color:rgba(45,222,152,.24);
+  box-shadow:0 34px 110px rgba(0,0,0,.42), 0 0 34px rgba(45,222,152,.045), inset 0 1px 0 rgba(255,255,255,.1);
+}
+.matheus-card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  background:linear-gradient(120deg, transparent, rgba(45,222,152,.18), transparent);
+  opacity:0;
+  transform:translateX(-55%);
+  transition:opacity .28s ease;
+  pointer-events:none;
+}
+.matheus-card:hover::before{opacity:1;animation:shineFinal 1.2s ease}
+@keyframes shineFinal{
+  from{transform:translateX(-65%)}
+  to{transform:translateX(65%)}
+}
+.matheus-card::after{
+  content:attr(data-n);
+  position:absolute;
+  right:24px;
+  top:22px;
+  font-size:58px;
+  line-height:1;
+  font-weight:900;
+  color:rgba(255,255,255,.045);
+  letter-spacing:-.08em;
+  transform:translateZ(18px);
+}
+.matheus-card h3{
+  font-size:21px;
+  line-height:1.1;
+  margin-bottom:16px;
+  letter-spacing:-.035em;
+  position:relative;
+  z-index:1;
+  transform:translateZ(28px);
+  color:#fff;
+}
+.matheus-card p{
+  color:#a0a0a0;
+  font-size:14.5px;
+  line-height:1.62;
+  max-width:430px;
+  position:relative;
+  z-index:1;
+  transform:translateZ(20px);
+}
+.matheus-pill-row{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:32px auto 0;
+}
+.matheus-pill{
+  padding:10px 18px;
+  border-radius:999px;
+  border:1px solid rgba(45,222,152,.24);
+  color:rgba(255,255,255,.78);
+  background:rgba(45,222,152,.065);
+  font-size:13px;
+  transition:transform .22s ease, background .22s ease, border-color .22s ease;
+}
+.matheus-pill:hover{
+  transform:translateY(-3px);
+  background:rgba(45,222,152,.105);
+  border-color:rgba(45,222,152,.38);
+}
+
+/* Conclusão — visual alto igual ao modelo anterior */
+#conclusao{padding-top:44px !important;padding-bottom:44px !important}
+.conclusion-icon{
+  position:relative;
+  width:260px;
+  height:112px;
+  margin:0 auto 54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.orbit{
+  position:absolute;
+  border:1px solid rgba(45,222,152,.16);
+  border-radius:50%;
+  transform:rotateX(64deg) rotateZ(0deg);
+  animation:orbitSpinFinal 11s linear infinite;
+}
+.orbit.o1{width:250px;height:82px}
+.orbit.o2{width:188px;height:62px;animation-duration:8s;animation-direction:reverse;border-color:rgba(77,168,255,.12)}
+.orbit.o3{width:132px;height:44px;animation-duration:6s;border-color:rgba(255,255,255,.10)}
+@keyframes orbitSpinFinal{to{transform:rotateX(64deg) rotateZ(360deg)}}
+.check-core{
+  position:relative;
+  z-index:2;
+  width:74px;
+  height:74px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(45,222,152,.42);
+  background:rgba(45,222,152,.075);
+  box-shadow:0 0 60px rgba(45,222,152,.12);
+  animation:pulseFinal 2.5s ease-in-out infinite;
+}
+.check-core svg{width:38px;height:38px;stroke:var(--g);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pulseFinal{0%,100%{transform:scale(.94);opacity:.86}50%{transform:scale(1.06);opacity:1}}
+.dot-orbit{
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  box-shadow:0 0 18px currentColor;
+  z-index:3;
+}
+.dot-orbit.g{left:42px;top:24px;background:var(--g);color:var(--g);animation:dotFloatFinal 3s ease-in-out infinite}
+.dot-orbit.b{right:42px;top:46px;background:var(--b);color:var(--b);animation:dotFloatFinal 3.3s ease-in-out infinite .4s}
+.dot-orbit.a{right:102px;bottom:30px;background:var(--a);color:var(--a);animation:dotFloatFinal 2.8s ease-in-out infinite .7s}
+@keyframes dotFloatFinal{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.conclusao-title-impact{
+  font-size:clamp(40px,5.2vw,74px) !important;
+  line-height:1.12 !important;
+  letter-spacing:-.055em !important;
+  font-weight:900 !important;
+  max-width:980px;
+  margin:0 auto;
+  text-shadow:0 24px 90px rgba(0,0,0,.74);
+}
+.metric-pills{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:46px auto 0;
+}
+.metric-pill{
+  padding:12px 22px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(255,255,255,.045);
+  color:rgba(255,255,255,.76);
+  font-size:15px;
+  transition:transform .22s ease,border-color .22s ease,background .22s ease;
+}
+.metric-pill.good{border-color:rgba(45,222,152,.35);background:rgba(45,222,152,.095);color:var(--g)}
+.metric-pill:hover{transform:translateY(-4px);border-color:rgba(45,222,152,.35);background:rgba(45,222,152,.08)}
+.conclusion-lead{
+  font-size:clamp(17px,1.65vw,24px);
+  line-height:1.55;
+  color:#a0a0a0;
+  max-width:900px;
+  margin:54px auto 0;
+  font-weight:300;
+}
+#conclusao .authors{margin-top:50px}
+#conclusao .author{transition:transform .22s ease,border-color .22s ease,background .22s ease}
+#conclusao .author:hover{
+  transform:translateY(-4px);
+  border-color:rgba(45,222,152,.24);
+  background:rgba(255,255,255,.06);
+}
+
+@media(max-width:860px){
+  #analise-critica,#conclusao{padding:42px 18px !important}
+  .matheus-grid{grid-template-columns:1fr;margin-top:36px}
+  .conclusion-icon{margin-bottom:34px}
+  .metric-pills{margin-top:32px}
+  .conclusion-lead{margin-top:34px}
+}
+
 </style>
 </head>
 <body>
@@ -1539,7 +1812,7 @@ section{padding-top:72px;padding-bottom:72px}
       </svg>
     </div>
 
-    <div class="eyebrow r d1">Técnico em Informática para Internet</div>
+    <div class="eyebrow r d1">Parte 01 · Introdução e Objetivo · Victor</div>
     <h1 class="h1 r d2">Gestão Estratégica de<br><span class="accent">Tecnologia da Informação</span><br>com Servidor Linux Samba</h1>
     <p class="lead r d3" style="text-align:center;margin:0 auto 28px">Infraestrutura moderna para instituições públicas: compartilhamento seguro, backup automatizado, alta performance e redução de custos com software livre.</p>
 
@@ -1550,9 +1823,11 @@ section{padding-top:72px;padding-bottom:72px}
     </div>
 
     <div class="authors r d5">
-      <div class="author"><div class="ava" style="background:var(--g)">E</div><div><div class="aname">Endrius</div><div class="arole">Fundamentação</div></div></div>
-      <div class="author"><div class="ava" style="background:var(--b)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento</div></div></div>
-      <div class="author"><div class="ava" style="background:var(--a)">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Resultados</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--g)">V</div><div><div class="aname">Victor</div><div class="arole">Introdução e objetivo</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--b)">E</div><div><div class="aname">Endrius</div><div class="arole">Conceitos principais</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--a)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento</div></div></div>
+      <div class="author"><div class="ava" style="background:#9b8cff;color:#fff">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Resultados</div></div></div>
+      <div class="author"><div class="ava" style="background:#f0f0f0">M</div><div><div class="aname">Matheus</div><div class="arole">Análise crítica</div></div></div>
     </div>
   </div>
   <div class="scroll-hint"><span>scroll</span><div class="arrow-d"></div></div>
@@ -1665,7 +1940,7 @@ section{padding-top:72px;padding-bottom:72px}
 <!-- ══════ FUNDAÇÃO (Endrius) ══════ -->
 <section id="fundacao" style="background:var(--bg)">
   <div style="text-align:center;max-width:min(95vw,700px)">
-    <div class="slabel r">Fundamentação · Endrius</div>
+    <div class="slabel r">Parte 02 · Conceitos principais · Endrius</div>
     <h2 class="h2 r d1">Três tecnologias.<br>Uma infraestrutura.</h2>
     <p class="lead r d2" style="text-align:center;margin:10px auto 0">Linux como base, Samba para compartilhamento em rede e Rsync para sincronização inteligente — uma infraestrutura completa e sem custo de licença.</p>
   </div>
@@ -1787,7 +2062,7 @@ section{padding-top:72px;padding-bottom:72px}
 <!-- ══════ METODOLOGIA (Rafael) ══════ -->
 <section id="metodologia" style="background:var(--bg2)">
   <div style="text-align:center;margin-bottom:32px">
-    <div class="slabel r">Desenvolvimento · Rafael</div>
+    <div class="slabel r">Parte 03 · Desenvolvimento (aplicação prática) · Rafael</div>
     <h2 class="h2 r d1">Projeto estruturado<br>antes da execução técnica</h2>
   </div>
   <div class="mg">
@@ -2089,46 +2364,99 @@ section{padding-top:72px;padding-bottom:72px}
   </div>
 </section>
 
+
+<section id="analise-critica">
+  <span class="final-particle p1"></span><span class="final-particle p2"></span><span class="final-particle p3"></span><span class="final-particle p4"></span>
+
+  <div class="cc" style="max-width:1120px">
+    <div class="slabel r">Parte 05 · Análise Crítica e Limitações · Matheus</div>
+
+    <h2 class="h2 r d1">Análise crítica<br>e limitações do estudo</h2>
+
+    <p class="lead r d2" style="text-align:center">
+      Tópico reservado para Matheus avaliar os pontos fortes, os pontos de atenção
+      e os limites da solução apresentada no artigo.
+    </p>
+
+    <div class="matheus-grid">
+      <div class="matheus-card r d2 tilt-card" data-n="01">
+        <h3>Vantagens</h3>
+        <p>Destacar os principais pontos positivos: custo reduzido, estabilidade, controle de permissões, segurança e uso de software livre.</p>
+      </div>
+
+      <div class="matheus-card r d3 tilt-card" data-n="02">
+        <h3>Desvantagens</h3>
+        <p>Apontar pontos de atenção, como necessidade de conhecimento técnico, manutenção adequada e configuração correta do servidor.</p>
+      </div>
+
+      <div class="matheus-card r d4 tilt-card" data-n="03">
+        <h3>Limitações do estudo</h3>
+        <p>Explicar que os resultados dependem do cenário analisado, da rede utilizada, do hardware e da forma de implementação.</p>
+      </div>
+
+      <div class="matheus-card r d5 tilt-card" data-n="04">
+        <h3>Melhorias futuras</h3>
+        <p>Sugerir aprimoramentos como monitoramento contínuo, documentação técnica, testes periódicos e expansão da automação.</p>
+      </div>
+    </div>
+
+    <div class="matheus-pill-row r d5">
+      <span class="matheus-pill">Análise crítica</span>
+      <span class="matheus-pill">Vantagens e desvantagens</span>
+      <span class="matheus-pill">Limitações</span>
+      <span class="matheus-pill">Melhorias futuras</span>
+    </div>
+  </div>
+</section>
+
 <section id="conclusao">
-  <div class="corb"></div>
-  <div class="cc">
+  <span class="final-particle p1"></span><span class="final-particle p2"></span><span class="final-particle p3"></span><span class="final-particle p4"></span>
+
+  <div class="cc" style="max-width:1180px">
     <div class="slabel r">Conclusão</div>
-    <!-- Orbiting success illustration -->
-    <div class="rs d1" style="margin:14px auto 28px">
-      <svg viewBox="0 0 200 130" width="200" height="130">
-        <ellipse cx="100" cy="65" rx="94" ry="32" fill="none" stroke="rgba(45,222,152,.05)" stroke-width="1"/>
-        <ellipse cx="100" cy="65" rx="70" ry="24" fill="none" stroke="rgba(45,222,152,.07)" stroke-width="1"/>
-        <ellipse cx="100" cy="65" rx="48" ry="16" fill="none" stroke="rgba(45,222,152,.1)" stroke-width="1"/>
-        <circle cx="100" cy="65" r="28" fill="rgba(45,222,152,.07)" stroke="rgba(45,222,152,.3)" stroke-width="1.5"/>
-        <polyline points="88,65 96,73 114,55" stroke="var(--g)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <animate attributeName="stroke-dasharray" values="0 60;60 0" dur="1s" fill="freeze" begin=".3s"/>
-        </polyline>
-        <circle r="5" fill="var(--g)"><animateMotion path="M100,65 m94,0 a94,32 0 1,0 -188,0 a94,32 0 1,0 188,0" dur="7s" repeatCount="indefinite"/></circle>
-        <circle r="4" fill="var(--b)"><animateMotion path="M100,65 m70,0 a70,24 0 1,1 -140,0 a70,24 0 1,1 140,0" dur="5s" repeatCount="indefinite"/></circle>
-        <circle r="3" fill="var(--a)"><animateMotion path="M100,65 m48,0 a48,16 0 1,0 -96,0 a48,16 0 1,0 96,0" dur="3.5s" repeatCount="indefinite"/></circle>
-      </svg>
+
+    <div class="conclusion-icon r d1">
+      <div class="orbit o1"></div>
+      <div class="orbit o2"></div>
+      <div class="orbit o3"></div>
+      <span class="dot-orbit g"></span>
+      <span class="dot-orbit b"></span>
+      <span class="dot-orbit a"></span>
+      <div class="check-core">
+        <svg viewBox="0 0 24 24"><path d="M5 12.5l4.3 4.3L19 7"/></svg>
+      </div>
     </div>
-    <div class="cq r d2">Software livre como solução estratégica para a gestão de dados moderna.</div>
-    <div class="cpills r d3">
-      <span class="cp g">✓ 400% mais velocidade</span>
-      <span class="cp g">✓ 83% menos tempo de backup</span>
-      <span class="cp g">✓ R$ 60.000+ economizados</span>
-      <span class="cp">Conformidade LGPD</span>
-      <span class="cp">Meses sem reboot</span>
-      <span class="cp">RAID 1 · Zero perda</span>
-      <span class="cp">80 terminais simultâneos</span>
+
+    <h2 class="conclusao-title-impact r d2">
+      Software livre como solução<br>
+      estratégica para a gestão de dados<br>
+      moderna.
+    </h2>
+
+    <div class="metric-pills r d3">
+      <span class="metric-pill good">✓ 400% mais velocidade</span>
+      <span class="metric-pill good">✓ 83% menos tempo de backup</span>
+      <span class="metric-pill good">✓ R$ 60.000+ economizados</span>
+      <span class="metric-pill">Conformidade LGPD</span>
     </div>
-    <p class="lead r d4" style="text-align:center;margin:0 auto 40px">A implementação real validou que Linux + Samba + Rsync entrega performance, segurança e conformidade legal sem os custos de soluções proprietárias.</p>
+
+    <p class="conclusion-lead r d4">
+      A implementação real validou que Linux + Samba + Rsync entrega performance,
+      segurança e conformidade legal sem os custos de soluções proprietárias.
+    </p>
+
     <div class="authors r d5">
-      <div class="author"><div class="ava" style="background:var(--g)">E</div><div><div class="aname">Endrius</div><div class="arole">Fundamentação Teórica</div></div></div>
-      <div class="author"><div class="ava" style="background:var(--b)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento Técnico</div></div></div>
-      <div class="author"><div class="ava" style="background:var(--a)">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Análise de Resultados</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--g)">V</div><div><div class="aname">Victor</div><div class="arole">Introdução, objetivo e conclusão</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--b)">E</div><div><div class="aname">Endrius</div><div class="arole">Conceitos principais</div></div></div>
+      <div class="author"><div class="ava" style="background:var(--a)">R</div><div><div class="aname">Rafael</div><div class="arole">Desenvolvimento prático</div></div></div>
+      <div class="author"><div class="ava" style="background:#9b8cff;color:#fff">P</div><div><div class="aname">Paulo Arthur</div><div class="arole">Resultados e exemplos</div></div></div>
+      <div class="author"><div class="ava" style="background:#f0f0f0;color:#000">M</div><div><div class="aname">Matheus</div><div class="arole">Análise crítica e limitações</div></div></div>
     </div>
   </div>
 </section>
 
 <script>
-const SEC=['hero','problema','fundacao','metodologia','infraestrutura','seguranca','resultados','conclusao'];
+const SEC=['hero','problema','fundacao','metodologia','infraestrutura','seguranca','resultados','paulo-backup-vantagens','analise-critica','conclusao'];
 const SELS=SEC.map(id=>document.getElementById(id));
 const pgbar=document.getElementById('pgbar');
 const dotsEl=document.getElementById('dots');
@@ -2179,10 +2507,11 @@ let started=false;
 new IntersectionObserver(e=>{
   if(e[0].isIntersecting&&!started){
     started=true;
-    setTimeout(()=>cnt(document.getElementById('cs'),120,' MB/s',1600),200);
-    setTimeout(()=>cnt(document.getElementById('cg'),400,'%',2000),400);
-    setTimeout(()=>cnt(document.getElementById('cb'),20,' min',1300),600);
-    setTimeout(()=>cntMoney(document.getElementById('ce'),60000,2000),800);
+    const cs=document.getElementById('cs'), cg=document.getElementById('cg'), cb=document.getElementById('cb'), ce=document.getElementById('ce');
+    if(cs) setTimeout(()=>cnt(cs,120,' MB/s',1600),200);
+    if(cg) setTimeout(()=>cnt(cg,400,'%',2000),400);
+    if(cb) setTimeout(()=>cnt(cb,20,' min',1300),600);
+    if(ce) setTimeout(()=>cntMoney(ce,60000,2000),800);
   }
 },{threshold:.2}).observe(document.getElementById('resultados'));
 
@@ -2205,6 +2534,36 @@ document.querySelectorAll('.bcard').forEach(card=>{
   bar.addEventListener('mouseleave', function(){
     bar.style.setProperty('--mx', '50%');
     bar.style.setProperty('--my', '50%');
+  });
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('#analise-critica,#conclusao').forEach(section=>{
+    section.addEventListener('mousemove',e=>{
+      const r = section.getBoundingClientRect();
+      section.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+      section.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    });
+  });
+
+  document.querySelectorAll('.tilt-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r = card.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      const rx = ((y / r.height) - .5) * -8;
+      const ry = ((x / r.width) - .5) * 10;
+      card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px)`;
+      card.style.setProperty('--cx', (x/r.width*100).toFixed(1)+'%');
+      card.style.setProperty('--cy', (y/r.height*100).toFixed(1)+'%');
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform = '';
+      card.style.setProperty('--cx','18%');
+      card.style.setProperty('--cy','18%');
+    });
   });
 })();
 </script>
